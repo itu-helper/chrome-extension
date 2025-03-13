@@ -1,0 +1,21 @@
+# Node dependencies (if using npm for build scripts)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Compiled output (if using a bundler like Webpack)
+dist/
+build/
+
+# Chrome extension packaging artifacts
+*.zip
+*.crx
+
+# Logs and temp files
+*.log
+.DS_Store
+*.bak
+
+# IDE/editor settings
+.vscode/
+.idea/

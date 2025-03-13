@@ -1,0 +1,440 @@
+/* Import Roboto font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* Apply Roboto to all elements except FontAwesome icons */
+#custom-nav, 
+#custom-nav-container, 
+#itu-navbar,
+#custom-nav *:not(.fa-solid):not(.fa-brands):not(.fa-regular),
+#custom-nav-container *:not(.fa-solid):not(.fa-brands):not(.fa-regular),
+#itu-navbar *:not(.fa-solid):not(.fa-brands):not(.fa-regular) {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+/* Fix FontAwesome icons */
+.fa-solid, .fa-brands, .fa-regular,
+#itu-navbar .fa-solid, 
+#itu-navbar .fa-brands, 
+#itu-navbar .fa-regular,
+#custom-nav-container .fa-solid, 
+#custom-nav-container .fa-brands, 
+#custom-nav-container .fa-regular {
+    font-family: 'Font Awesome 6 Free' !important;
+}
+
+.fa-brands,
+#itu-navbar .fa-brands,
+#custom-nav-container .fa-brands {
+    font-family: 'Font Awesome 6 Brands' !important;
+}
+
+.fa-solid,
+#itu-navbar .fa-solid,
+#custom-nav-container .fa-solid {
+    font-weight: 900 !important;
+}
+
+/* Apply Roboto to all elements */
+#custom-nav, 
+#custom-nav-container, 
+#itu-navbar,
+#custom-nav *:not(.fa-solid):not(.fa-brands):not(.fa-regular),
+#custom-nav-container *:not(.fa-solid):not(.fa-brands):not(.fa-regular),
+#itu-navbar *:not(.fa-solid):not(.fa-brands):not(.fa-regular) {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+#custom-nav {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: #272727 !important;
+    color: white !important;
+    padding: 10px !important;
+    z-index: 2147483647 !important; /* Maximum z-index value */
+    display: flex !important;
+    gap: 20px !important;
+    align-items: center !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 16px !important;
+    transition: transform 0.3s ease !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    border: none !important;
+    text-align: left !important;
+}
+
+#custom-nav * {
+    box-sizing: border-box !important;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+#custom-nav a {
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    padding: 5px 10px !important;
+    border-radius: 4px !important;
+    transition: background-color 0.2s ease !important;
+    white-space: nowrap !important;
+    font-size: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+#custom-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+#custom-nav .current-site {
+    background-color: #c99208 !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 5px 10px !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+    font-size: 14px !important;
+    cursor: default !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+#custom-nav .logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    margin-left: 20px;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+#custom-nav .logo-container:hover {
+    background-color: transparent !important;
+}
+
+#custom-nav .logo {
+    height: 40px !important;
+    margin-right: 5px !important;
+    vertical-align: middle !important;
+    max-height: 40px !important;
+    width: auto !important;
+    display: inline-block !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+#custom-nav i {
+    margin-right: 5px !important;
+    font-size: 14px !important;
+    width: 16px !important;
+    text-align: center !important;
+    color: inherit !important;
+}
+
+#custom-nav i.fa-solid,
+#custom-nav i.fa-brands,
+#custom-nav i.fa-regular {
+    display: inline-block !important;
+    font: normal normal normal 14px/1 FontAwesome !important;
+    font-size: inherit !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    width: 16px !important;
+    height: auto !important;
+    margin-right: 5px !important;
+    vertical-align: middle !important;
+    color: white !important;
+    font-family: FontAwesome !important; /* Keep FontAwesome for icons */
+}
+
+#custom-nav i.fa-door-open:before { content: "\f52b" !important; }
+#custom-nav i.fa-graduation-cap:before { content: "\f19d" !important; }
+#custom-nav i.fa-sitemap:before { content: "\f0e8" !important; }
+#custom-nav i.fa-credit-card:before { content: "\f09d" !important; }
+#custom-nav i.fa-book:before { content: "\f02d" !important; }
+#custom-nav i.fa-circle-question:before { content: "\f059" !important; }
+#custom-nav i.fa-envelope:before { content: "\f0e0" !important; }
+
+#custom-nav .nav-links {
+    display: flex !important;
+    gap: 15px !important;
+    margin-right: 20px !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    max-width: 70% !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+#custom-nav-container {
+    position: relative !important;
+    z-index: 2147483647 !important;
+    width: 100% !important;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+#custom-nav .nav-text {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* Add styles to push content down */
+body {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Hide navbar class */
+.nav-hidden {
+    transform: translateY(-100%) !important;
+}
+
+/* Fix buffer and padding */
+#custom-nav-buffer {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* Navbar Container */
+#custom-nav-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 999999 !important;
+    background-color: #2a2a2a !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    overflow: visible !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    transform: translateY(0) !important;
+    transition: transform 0.3s ease-in-out !important;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+/* Hidden state for navbar */
+#custom-nav-container.nav-hidden {
+    transform: translateY(-50px) !important;
+    transition: transform 0.3s ease-in-out !important;
+}
+
+/* Main navbar element */
+#itu-navbar {
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    font-size: 16px !important;
+    line-height: normal !important;
+    box-sizing: border-box !important;
+    padding: 0 10px !important;
+    width: 100% !important;
+    background-color: #2a2a2a !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid #444 !important;
+    position: relative !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+/* Logo container styling */
+#itu-navbar .logo-container {
+    height: 40px !important;
+    line-height: 40px !important;
+    margin: 5px 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    text-decoration: none !important;
+}
+
+#itu-navbar .logo {
+    max-height: 40px !important;
+}
+
+/* Mobile menu toggle button */
+#itu-navbar .mobile-menu-toggle {
+    background: none !important;
+    border: none !important;
+    color: white !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    padding: 5px 10px !important;
+    margin-left: 10px !important;
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Navigation links containers */
+#itu-navbar .nav-links {
+    height: 50px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    overflow-y: visible !important;
+}
+
+#itu-navbar .left-links {
+    overflow-x: hidden !important;
+    flex-grow: 1 !important;
+}
+
+#itu-navbar .right-links {
+    flex-shrink: 0 !important;
+}
+
+/* All links and current site styling */
+#itu-navbar a, 
+#itu-navbar span.current-site {
+    height: 40px !important;
+    max-height: 40px !important;
+    line-height: 40px !important;
+    font-size: 16px !important;
+    margin: 5px 3px !important;
+    padding: 0 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+    background-color: #2a2a2a !important;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    font-weight: 500 !important;
+}
+
+/* Current site styling */
+#itu-navbar span.current-site {
+    color: #c99208 !important;
+    font-weight: 700 !important;
+}
+
+/* Icon styling in navbar */
+#itu-navbar .current-site i,
+#itu-navbar a i {
+    font-size: 16px !important;
+}
+
+/* Text styling in navbar */
+#itu-navbar .nav-text {
+    font-size: 16px !important;
+    line-height: normal !important;
+    margin-left: 5px !important;
+    font-weight: inherit !important;
+}
+
+/* Ensure text styling doesn't get affected by host page */
+#itu-navbar a:hover,
+#itu-navbar a:focus,
+#itu-navbar a:visited,
+#itu-navbar a:active {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+/* Buffer element styles */
+#itu-navbar-buffer {
+    width: 100% !important;
+    height: 50px !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Mobile menu open state */
+#custom-nav-container.mobile-menu-open {
+    height: auto !important;
+    overflow: visible !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
+}
+
+#custom-nav-container.mobile-menu-open #itu-navbar {
+    min-height: 50px !important;
+    height: auto !important;
+    max-height: none !important;
+}
+
+/* Media query for responsive design */
+@media screen and (max-width: 768px) {
+    #itu-navbar {
+        position: relative !important;
+    }
+    
+    #itu-navbar .mobile-menu-toggle {
+        display: flex !important;
+    }
+    
+    /* Mobile collapsed state */
+    #itu-navbar .nav-links:not(.mobile-menu-open + #itu-navbar .nav-links) {
+        display: none !important;
+    }
+    
+    /* Mobile expanded state */
+    #custom-nav-container.mobile-menu-open .nav-links {
+        display: flex !important;
+        flex-direction: column !important;
+        position: absolute !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background-color: #2a2a2a !important;
+        z-index: 999998 !important;
+    }
+    
+    #custom-nav-container.mobile-menu-open .left-links {
+        top: 50px !important;
+    }
+    
+    #custom-nav-container.mobile-menu-open .right-links {
+        border-top: 1px solid #444 !important;
+    }
+    
+    #custom-nav-container.mobile-menu-open a,
+    #custom-nav-container.mobile-menu-open span.current-site {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 10px 20px !important;
+        margin: 0 !important;
+        border-bottom: 1px solid #444 !important;
+        font-weight: 500 !important;
+    }
+    
+    /* Smaller padding for links on mobile */
+    #itu-navbar .nav-links.left-links a,
+    #itu-navbar .nav-links.left-links span.current-site,
+    #itu-navbar .nav-links.right-links a,
+    #itu-navbar .nav-links.right-links span.current-site {
+        margin: 5px 1px !important;
+        padding: 0 5px !important;
+    }
+    
+    /* First item in each section should be bolder */
+    #custom-nav-container.mobile-menu-open .left-links a:first-child,
+    #custom-nav-container.mobile-menu-open .right-links a:first-child {
+        font-weight: 700 !important;
+    }
+}
+
+/* Medium screens - hide some labels */
+@media screen and (min-width: 769px) and (max-width: 991px) {
+    #itu-navbar .left-links a:nth-child(n+4) .nav-text,
+    #itu-navbar .left-links span.current-site:nth-child(n+4) .nav-text {
+        display: none !important;
+    }
+}
