@@ -22,7 +22,7 @@ const ITU_SITES = {
         hidden: true
     },
     { 
-        url: "https://ninova.itu.edu.tr", 
+        url: "https://ninova.itu.edu.tr/Kampus1", 
         label: "Ninova", 
         icon: "fa-solid fa-book",
         hidden: false
@@ -40,6 +40,12 @@ const ITU_SITES = {
         hidden: false
     }
   ],
+  
+  // Separator between groups
+  separator: {
+    isSeparator: true,
+    hidden: false
+  },
   
   // Right-aligned sites
   rightSites: [
@@ -65,14 +71,18 @@ const ITU_SITES = {
   
   // Get a flat array of all sites
   getAllSites: function() {
-    return [...this.leftSites, ...this.rightSites];
+    return [...this.leftSites, this.separator, ...this.rightSites];
   },
   
   // Get default visibility settings for all sites
   getDefaultSettings: function() {
     const settings = {};
     this.getAllSites().forEach(site => {
-      settings[site.url] = !site.hidden; // true if shown, false if hidden
+      if (!site.isSeparator) {
+        settings[site.url] = !site.hidden; // true if shown, false if hidden
+      } else {
+        settings['separator'] = !site.hidden;
+      }
     });
     return settings;
   },
@@ -80,9 +90,11 @@ const ITU_SITES = {
   // Get a site by URL
   getSiteByUrl: function(url) {
     return this.getAllSites().find(site => 
-      url === site.url || 
-      url.startsWith(site.url + "/") ||
-      new URL(url).hostname === new URL(site.url).hostname
+      !site.isSeparator && (
+        url === site.url || 
+        url.startsWith(site.url + "/") ||
+        new URL(url).hostname === new URL(site.url).hostname
+      )
     );
   }
 };

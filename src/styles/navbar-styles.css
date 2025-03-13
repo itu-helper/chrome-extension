@@ -110,3 +110,271 @@
         height: 25px;
     }
 }
+
+/* Navbar container styles - updated */
+#custom-nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  transition: transform 0.3s ease;
+  background-color: #272727;
+}
+
+#custom-nav-container.nav-hidden {
+  transform: translateY(-100%);
+}
+
+/* Mobile menu open state - updated */
+#custom-nav-container.mobile-menu-open .nav-links-container {
+  display: flex !important; /* Force display when menu is open */
+  flex-direction: column;
+  background-color: #272727;
+  border-bottom: 1px solid #444;
+  padding: 10px 0;
+}
+
+/* Base navbar styles - updated */
+.custom-nav {
+  display: flex;
+  align-items: center;
+  background-color: #272727;
+  height: 50px;
+  border-bottom: 1px solid #444;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo container - Fix to prevent it from stretching */
+.custom-nav .logo-container {
+  margin-right: 20px;
+  display: inline-flex;
+  flex: 0 0 auto; /* Prevent stretching */
+  align-items: center;
+}
+
+.custom-nav .logo {
+  height: 30px;
+}
+
+/* Mobile toggle button - Fix visibility issues */
+.mobile-menu-toggle {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: white !important; /* Force color */
+  cursor: pointer;
+  padding: 8px;
+  z-index: 10001; /* Ensure it's clickable */
+  align-items: center;
+  justify-content: center;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.mobile-menu-toggle i {
+  color: white !important;
+  display: inline-block !important;
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Links container - updated */
+.nav-links-container {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a, .nav-links .current-site {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+  color: #c99208;
+}
+
+.nav-links .current-site {
+  font-weight: bold;
+  color: #c99208;
+}
+
+.nav-links i {
+  margin-right: 5px;
+}
+
+/* Media queries for responsive design - updated */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex !important; /* Force display on mobile */
+    background-color: transparent;
+    visibility: visible !important;
+  }
+  
+  .nav-links-container {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background-color: #272727;
+    z-index: 10000;
+    min-height: 50px; /* Ensure minimum height for visibility */
+  }
+  
+  #custom-nav-container.mobile-menu-open .nav-links-container {
+    display: flex;
+    height: auto !important; /* Force height */
+    min-height: 100px; /* Ensure there's space for the menu items */
+    max-height: calc(100vh - 50px); /* Maximum height to prevent overflow */
+    overflow-y: auto; /* Add scroll if needed */
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    background-color: #272727;
+    height: auto !important; /* Force height */
+    min-height: inherit;
+    padding: 10px 0;
+  }
+  
+  .nav-links.left-links {
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #444;
+  }
+  
+  .nav-links.right-links {
+    padding: 5px 0;
+  }
+  
+  .nav-links a, .nav-links .current-site {
+    padding: 10px 20px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    color: white;
+  }
+  
+  .nav-text {
+    margin-left: 10px;
+  }
+}
+
+/* Fix for navbar container in mobile view */
+#custom-nav-container.mobile-menu-open {
+  height: auto;
+  min-height: 50px;
+}
+
+/* Ensure the mobile menu actually shows */
+#custom-nav-container.mobile-menu-open .nav-links-container.mobile-view {
+  display: flex !important;
+  height: auto !important;
+}
+
+/* Fix for mobile menu links display */
+#custom-nav-container.mobile-menu-open .nav-links a, 
+#custom-nav-container.mobile-menu-open .nav-links .current-site {
+  display: flex !important;
+  height: auto !important;
+  min-height: 40px;
+}
+
+/* Fix icon display in the hamburger button */
+button.mobile-menu-toggle i.fas {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+  display: inline-block !important;
+}
+
+/* Fix zero height nav-links */
+.nav-links {
+  min-height: 40px !important;
+  display: flex !important;
+  height: auto !important;
+}
+
+#custom-nav-container.mobile-menu-open .nav-links-container {
+  height: auto !important;
+  min-height: 200px !important;
+}
+
+/* Ensure each menu item is visible */
+.nav-links a, .nav-links .current-site {
+  min-height: 20px !important;
+  display: flex !important;
+  padding: 10px 20px !important;
+  visibility: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* Mobile specific fixes */
+@media (max-width: 768px) {
+  /* Fix links container height */
+  .nav-links-container {
+    height: auto !important;
+    min-height: 100px !important;
+  }
+  
+  /* Ensure mobile menu toggle is visible */
+  .mobile-menu-toggle {
+    display: flex !important;
+    height: 40px !important;
+    width: 40px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    background-color: transparent !important;
+    position: absolute !important;
+    right: 10px !important;
+    top: 5px !important;
+    z-index: 10010 !important;
+  }
+  
+  /* Ensure mobile menu content is visible */
+  #custom-nav-container.mobile-menu-open .nav-links {
+    min-height: 40px !important;
+    height: auto !important;
+    margin: 5px 0 !important;
+    padding: 5px 0 !important;
+    display: block !important;
+    width: 100% !important;
+  }
+  
+  #custom-nav-container.mobile-menu-open .nav-links a,
+  #custom-nav-container.mobile-menu-open .nav-links .current-site {
+    margin: 5px 0 !important;
+    padding: 10px 20px !important;
+    height: auto !important;
+    min-height: 44px !important;
+    width: 100% !important;
+    display: flex !important;
+  }
+}
+
+/* Override any conflicting styles from earlier in the file */
+.mobile-menu-toggle i.fas {
+  color: white !important; 
+  display: inline-block !important;
+  font-size: 24px !important;
+  height: 24px !important;
+  width: 24px !important;
+  text-align: center !important;
+  line-height: 24px !important;
+}

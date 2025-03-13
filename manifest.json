@@ -1,79 +1,67 @@
 {
-  "manifest_version": 3,
-  "name": "ITU Helper",
-  "version": "1.0",
-  "description": "Helper extension for ITU students providing easy access to university websites",
-  "permissions": ["activeTab", "storage"],
-  "host_permissions": [
-      "https://portal.itu.edu.tr/*",
-      "https://obs.itu.edu.tr/*",
-      "https://itu-helper.github.io/*",
-      "https://smartpay.itu.edu.tr/*",
-      "https://ninova.itu.edu.tr/*",
-      "https://yardim.itu.edu.tr/*",
-      "https://webmail.itu.edu.tr/*",
-      "https://ari24.com/*",
-      "http://www.notkutusu.com/*",
-      "https://girisv3.itu.edu.tr/*"
-  ],
-  "background": {
-    "service_worker": "src/scripts/background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://portal.itu.edu.tr/*",
-        "https://obs.itu.edu.tr/*",
+    "manifest_version": 3,
+    "name": "ITU Helper",
+    "version": "1.0",
+    "description": "Helper extension for ITU students providing easy access to university websites",
+    "permissions": ["activeTab", "storage"],
+    "host_permissions": [
+        "*://*.itu.edu.tr/*",
         "https://itu-helper.github.io/*",
-        "https://smartpay.itu.edu.tr/*",
-        "https://ninova.itu.edu.tr/*",
-        "https://yardim.itu.edu.tr/*",
-        "https://webmail.itu.edu.tr/*",
         "https://ari24.com/*",
         "http://www.notkutusu.com/*"
-      ],
-      "js": ["src/shared/sites-data.js", "src/scripts/content.js"],
-      "css": ["src/styles/styles.css", "src/styles/navbar-styles.css"],
-      "run_at": "document_end"
+    ],
+    "background": {
+        "service_worker": "src/scripts/background.js"
     },
-    {
-      "matches": [
-        "https://portal.itu.edu.tr/*",
-        "https://obs.itu.edu.tr/*", 
-        "https://itu-helper.github.io/*",
-        "https://smartpay.itu.edu.tr/*",
-        "https://ninova.itu.edu.tr/*",
-        "https://yardim.itu.edu.tr/*",
-        "https://webmail.itu.edu.tr/*",
-        "https://ari24.com/*",
-        "http://www.notkutusu.com/*"
-      ],
-      "js": ["src/shared/sites-data.js", "src/content/navbar-controller.js"],
-      "run_at": "document_end"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "src/styles/styles.css",
-        "src/styles/navbar-styles.css",
-        "src/shared/sites-data.js"
-      ],
-      "matches": ["<all_urls>"]
-    }
-  ],
-  "icons": {
-    "16": "src/assets/icons/icon16.png",
-    "48": "src/assets/icons/icon48.png",
-    "128": "src/assets/icons/icon128.png"
-  },
-  "action": {
-    "default_icon": {
-      "16": "src/assets/icons/icon16.png",
-      "48": "src/assets/icons/icon48.png",
-      "128": "src/assets/icons/icon128.png"
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.itu.edu.tr/*",
+                "https://itu-helper.github.io/*",
+                "https://ari24.com/*",
+                "http://www.notkutusu.com/*"
+            ],
+            "js": ["src/shared/sites-data.js", "src/scripts/content.js"],
+            "css": ["src/styles/styles.css", "src/styles/navbar-styles.css"],
+            "run_at": "document_end"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "src/styles/styles.css",
+                "src/styles/navbar-styles.css",
+                "src/shared/sites-data.js"
+            ],
+            "matches": ["<all_urls>"]
+        },
+        {
+            "resources": [
+                "assets/fontawesome/css/*",
+                "assets/fontawesome/webfonts/*"
+            ],
+            "matches": [
+                "*://*.itu.edu.tr/*",
+                "*://*.ari24.com/*",
+                "*://*.notkutusu.com/*"
+            ]
+        }
+    ],
+    "icons": {
+        "16": "src/assets/icons/icon16.png",
+        "48": "src/assets/icons/icon48.png",
+        "128": "src/assets/icons/icon128.png"
     },
-    "default_title": "ITU Helper",
-    "default_popup": "src/popup/popup.html"
-  }
+    "action": {
+        "default_icon": {
+            "16": "src/assets/icons/icon16.png",
+            "48": "src/assets/icons/icon48.png",
+            "128": "src/assets/icons/icon128.png"
+        },
+        "default_title": "ITU Helper",
+        "default_popup": "src/popup/popup.html"
+    },
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
+    }
 }

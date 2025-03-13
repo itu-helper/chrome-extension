@@ -6,19 +6,27 @@ document.addEventListener('DOMContentLoaded', function() {
   // Function to generate toggles for all sites
   function generateToggles() {
     if (window.ITU_SITES) {
-      const allSites = [...window.ITU_SITES.leftSites, ...window.ITU_SITES.rightSites];
+      const allSites = window.ITU_SITES.getAllSites();
       
       allSites.forEach(site => {
-        const toggleContainer = document.createElement('div');
-        toggleContainer.className = 'toggle-container';
-        toggleContainer.innerHTML = `
-          <span class="site-label">${site.label}</span>
-          <label class="toggle-switch">
-            <input type="checkbox" class="site-toggle" data-url="${site.url}" ${site.hidden ? '' : 'checked'}>
-            <span class="slider"></span>
-          </label>
-        `;
-        togglesContainer.appendChild(toggleContainer);
+        if (site.isSeparator) {
+          // Create a separator element
+          const separator = document.createElement('hr');
+          separator.className = 'sites-separator';
+          separator.dataset.type = 'separator';
+          togglesContainer.appendChild(separator);
+        } else {
+          const toggleContainer = document.createElement('div');
+          toggleContainer.className = 'toggle-container';
+          toggleContainer.innerHTML = `
+            <span class="site-label">${site.label}</span>
+            <label class="toggle-switch">
+              <input type="checkbox" class="site-toggle" data-url="${site.url}" ${site.hidden ? '' : 'checked'}>
+              <span class="slider"></span>
+            </label>
+          `;
+          togglesContainer.appendChild(toggleContainer);
+        }
       });
       
       // After creating toggles, load saved preferences

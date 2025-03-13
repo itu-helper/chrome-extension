@@ -15,6 +15,23 @@
     navbarStylesLink.href = chrome.runtime.getURL('src/styles/navbar-styles.css');
     document.head.appendChild(navbarStylesLink);
     
+    // Improved FontAwesome loading - add CSS first, then script
+    if (!document.getElementById('itu-helper-fontawesome-css')) {
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.id = 'itu-helper-fontawesome-css';
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css';
+        document.head.appendChild(fontAwesomeLink);
+    }
+    
+    if (!document.getElementById('itu-helper-fontawesome')) {
+        const script = document.createElement('script');
+        script.id = 'itu-helper-fontawesome';
+        script.src = 'https://kit.fontawesome.com/9e92a2c380.js';
+        script.crossOrigin = 'anonymous';
+        document.head.appendChild(script);
+    }
+    
     // Add the shared sites data script
     const sitesDataScript = document.createElement('script');
     sitesDataScript.src = chrome.runtime.getURL('src/shared/sites-data.js');
@@ -23,30 +40,15 @@
     };
     document.head.appendChild(sitesDataScript);
 
-    // Add FontAwesome with a unique ID to avoid conflicts
-    if (!document.getElementById('itu-helper-fontawesome')) {
-        const script = document.createElement('script');
-        script.id = 'itu-helper-fontawesome';
-        script.src = 'https://kit.fontawesome.com/9e92a2c380.js';
-        script.crossOrigin = 'anonymous';
-        document.head.appendChild(script);
-        
-        // Also add the CSS as a fallback
-        const fontAwesomeLink = document.createElement('link');
-        fontAwesomeLink.rel = 'stylesheet';
-        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css';
-        document.head.appendChild(fontAwesomeLink);
-    }
-
     // Create a container for the navbar
     const navContainer = document.createElement("div");
     navContainer.id = "custom-nav-container";
     document.body.insertAdjacentElement('afterbegin', navContainer);
     
-    // Create the actual navbar inside the regular DOM (shadow DOM had issues with FontAwesome)
+    // Create the actual navbar inside the regular DOM
     const nav = document.createElement("div");
-    nav.id = "itu-navbar"; // Use a single consistent ID
-    nav.className = "custom-nav"; // Add a class for additional styling
+    nav.id = "itu-navbar"; 
+    nav.className = "custom-nav";
     
     // Get current URL
     const currentUrl = window.location.href;
@@ -92,33 +94,70 @@
                 generateLinksHtml(window.ITU_SITES.leftSites),
                 generateLinksHtml(window.ITU_SITES.rightSites)
             ]).then(([leftLinksHtml, rightLinksHtml]) => {
+                const isMobile = window.innerWidth < 768;
+                
+
                 nav.innerHTML = `
-                    <a href="https://itu-helper.github.io/home" class="logo-container">
-                        <img src="https://raw.githubusercontent.com/itu-helper/home/main/images/logo.png" alt="ITU Helper Logo" class="logo">
-                    </a>
-                    <button class="mobile-menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="nav-links left-links">
-                        ${leftLinksHtml}
+                    <div class="logo-wrapper">
+                        <a href="https://itu-helper.github.io/home" class="logo-container">
+                            <img src="https://raw.githubusercontent.com/itu-helper/home/main/images/logo.png" alt="ITU Helper Logo" class="logo">
+                        </a>
                     </div>
-                    <div class="nav-links right-links">
-                        ${rightLinksHtml}
+                    <button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation">
+                        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-links-container">
+                        <!-- Desktop Layout -->
+                        <div class="desktop-layout">
+                            <div class="nav-links left-links">
+                                ${leftLinksHtml}
+                            </div>
+                            <div class="nav-links right-links">
+                                ${rightLinksHtml}
+                            </div>
+                        </div>
+                        
+                        <!-- Mobile Layout -->
+                        <div class="mobile-layout">
+                            <div class="mobile-links">
+                                ${leftLinksHtml}
+                                ${rightLinksHtml}
+                            </div>
+                        </div>
                     </div>
                 `;
                 
-                // Add mobile menu toggle functionality
+                
+                // Enhanced mobile menu toggle functionality
                 const mobileToggle = nav.querySelector('.mobile-menu-toggle');
-                mobileToggle.addEventListener('click', function() {
-                    navContainer.classList.toggle('mobile-menu-open');
-                    
-                    // Change icon based on menu state
-                    if (navContainer.classList.contains('mobile-menu-open')) {
-                        mobileToggle.innerHTML = '<i class="fas fa-times"></i>';
-                    } else {
-                        mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
-                });
+                if (mobileToggle) {
+                    mobileToggle.addEventListener('click', function(e) {
+                        e.preventDefault(); // Prevent default button behavior
+                        e.stopPropagation(); // Stop event propagation
+                        navContainer.classList.toggle('mobile-menu-open');
+                        
+                        // Change icon based on menu state
+                        const iconElement = mobileToggle.querySelector('i');
+                        if (iconElement) {
+                            if (navContainer.classList.contains('mobile-menu-open')) {
+                                iconElement.className = 'fa-solid fa-times';
+                            } else {
+                                iconElement.className = 'fa-solid fa-bars';
+                            }
+                        }
+
+                        // Force redraw of the mobile menu
+                        const navLinksContainer = nav.querySelector('.nav-links-container');
+                        if (navLinksContainer) {
+                            navLinksContainer.style.display = 'none';
+                            setTimeout(() => {
+                                if (navContainer.classList.contains('mobile-menu-open')) {
+                                    navLinksContainer.style.display = 'flex';
+                                }
+                            }, 10);
+                        }
+                    });
+                }
 
                 window.addEventListener('resize', adjustNavbarForScreenSize);
                 
@@ -190,32 +229,54 @@
                 generateLinksHtmlLegacy(rightSites)
             ]).then(([leftLinksHtml, rightLinksHtml]) => {
                 nav.innerHTML = `
-                    <a href="https://itu-helper.github.io/home/" class="logo-container">
-                        <img src="https://raw.githubusercontent.com/itu-helper/home/main/images/logo.png" alt="ITU Helper Logo" class="logo">
-                    </a>
-                    <button class="mobile-menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="nav-links left-links">
-                        ${leftLinksHtml}
+                    <div class="logo-wrapper">
+                        <a href="https://itu-helper.github.io/home/" class="logo-container">
+                            <img src="https://raw.githubusercontent.com/itu-helper/home/main/images/logo.png" alt="ITU Helper Logo" class="logo">
+                        </a>
                     </div>
-                    <div class="nav-links right-links">
-                        ${rightLinksHtml}
+                    <button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation">
+                        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-links-container">
+                        <div class="nav-links left-links">
+                            ${leftLinksHtml}
+                        </div>
+                        <div class="nav-links right-links">
+                            ${rightLinksHtml}
+                        </div>
                     </div>
                 `;
                 
-                // Add mobile menu toggle functionality
+                // Enhanced mobile menu toggle functionality with the same pattern as above
                 const mobileToggle = nav.querySelector('.mobile-menu-toggle');
-                mobileToggle.addEventListener('click', function() {
-                    navContainer.classList.toggle('mobile-menu-open');
-                    
-                    // Change icon based on menu state
-                    if (navContainer.classList.contains('mobile-menu-open')) {
-                        mobileToggle.innerHTML = '<i class="fas fa-times"></i>';
-                    } else {
-                        mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
-                });
+                if (mobileToggle) {
+                    mobileToggle.addEventListener('click', function(e) {
+                        e.preventDefault(); // Prevent default button behavior
+                        e.stopPropagation(); // Stop event propagation
+                        navContainer.classList.toggle('mobile-menu-open');
+                        
+                        // Change icon based on menu state
+                        const iconElement = mobileToggle.querySelector('i');
+                        if (iconElement) {
+                            if (navContainer.classList.contains('mobile-menu-open')) {
+                                iconElement.className = 'fa-solid fa-times';
+                            } else {
+                                iconElement.className = 'fa-solid fa-bars';
+                            }
+                        }
+
+                        // Force redraw of the mobile menu
+                        const navLinksContainer = nav.querySelector('.nav-links-container');
+                        if (navLinksContainer) {
+                            navLinksContainer.style.display = 'none';
+                            setTimeout(() => {
+                                if (navContainer.classList.contains('mobile-menu-open')) {
+                                    navLinksContainer.style.display = 'flex';
+                                }
+                            }, 10);
+                        }
+                    });
+                }
 
                 // Add responsive behavior for small screens
                 adjustNavbarForScreenSize();
@@ -282,6 +343,23 @@
         // If scrolled down more than threshold
         if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
             navContainer.classList.add('nav-hidden');
+            
+            // Also close the mobile menu if it's open when scrolling down
+            if (navContainer.classList.contains('mobile-menu-open')) {
+                navContainer.classList.remove('mobile-menu-open');
+                
+                // Update the icon to the hamburger icon
+                const iconElement = nav.querySelector('.mobile-menu-toggle i');
+                if (iconElement) {
+                    iconElement.className = 'fa-solid fa-bars';
+                }
+                
+                // Hide the mobile menu
+                const navLinksContainer = nav.querySelector('.nav-links-container');
+                if (navLinksContainer && navLinksContainer.classList.contains('mobile-view')) {
+                    navLinksContainer.style.display = 'none';
+                }
+            }
         } 
         // If scrolled up or at the top
         else if (scrollTop < lastScrollTop || scrollTop <= 0) {
@@ -311,24 +389,125 @@
         }
     }, 500);
     
-    // Function to adjust navbar for different screen sizes
+    // Function to adjust navbar for different screen sizes - updated with better mobile menu handling
     function adjustNavbarForScreenSize() {
         const windowWidth = window.innerWidth;
         const mobileToggle = nav.querySelector('.mobile-menu-toggle');
+        const navLinksContainer = nav.querySelector('.nav-links-container');
+        const desktopLayout = nav.querySelector('.desktop-layout');
+        const mobileLayout = nav.querySelector('.mobile-layout');
         
+        const isMobile = windowWidth < 768;
+
+        // Toggle layouts - Fix: use style.display for both layouts
+        if (desktopLayout) desktopLayout.style.display = isMobile ? "none" : "flex";
+        if (mobileLayout) mobileLayout.style.display = isMobile ? "flex" : "none";
+
+        // Add custom CSS to fix styling issues
+        let customStyles = document.getElementById('itu-helper-nav-styles');
+        if (!customStyles) {
+            customStyles = document.createElement('style');
+            customStyles.id = 'itu-helper-nav-styles';
+            document.head.appendChild(customStyles);
+        }
+
+        customStyles.textContent = `
+            .desktop-layout {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+            .mobile-layout {
+                width: 100%;
+            }
+            .mobile-layout .mobile-links {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            .mobile-layout .mobile-links a, 
+            .mobile-layout .mobile-links span {
+                display: block;
+                width: 100%;
+                padding: 10px 15px;
+                text-align: left;
+            }
+            .nav-links-container.mobile-view {
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 100%;
+                background-color: #333333;
+                z-index: 1000;
+            }
+        `;
+
         // Apply appropriate classes based on screen width
-        if (windowWidth < 768) {
+        if (isMobile) {
             // Show mobile toggle in small screens
             if (mobileToggle) {
                 mobileToggle.style.display = 'flex';
+                mobileToggle.style.visibility = 'visible'; // Ensure visibility
+            }
+            
+            // Ensure mobile menu styling is applied
+            if (navLinksContainer) {
+                navLinksContainer.classList.add('mobile-view');
+                
+                // Keep the menu hidden unless it's explicitly open
+                if (!navContainer.classList.contains('mobile-menu-open')) {
+                    navLinksContainer.style.display = 'none';
+                } else {
+                    navLinksContainer.style.display = 'flex';
+                    navLinksContainer.style.height = 'auto';
+                    navLinksContainer.style.minHeight = '100px';
+                }
             }
         } else {
             // Hide mobile toggle in large screens
             if (mobileToggle) {
                 mobileToggle.style.display = 'none';
             }
+            
+            // Ensure desktop styling is applied
+            if (navLinksContainer) {
+                navLinksContainer.classList.remove('mobile-view');
+                navLinksContainer.style.display = 'flex'; // Always show in desktop mode
+                navLinksContainer.style.height = '';
+                navLinksContainer.style.minHeight = '';
+            }
+            
             // Ensure menu is not collapsed in desktop view
             navContainer.classList.remove('mobile-menu-open');
+        }
+        
+        // Double check FontAwesome is loaded
+        ensureFontAwesomeIsLoaded();
+    }
+    
+    // Function to ensure FontAwesome is properly loaded
+    function ensureFontAwesomeIsLoaded() {
+        // Check if FA styles are applied
+        const testIcon = nav.querySelector('.fas');
+        if (testIcon && window.getComputedStyle(testIcon).fontFamily !== '"Font Awesome 6 Free"' &&
+            window.getComputedStyle(testIcon).fontFamily !== 'Font Awesome 6 Free') {
+            
+            // Reload FontAwesome if necessary
+            if (!document.getElementById('itu-helper-fontawesome-css-backup')) {
+                const fontAwesomeLink = document.createElement('link');
+                fontAwesomeLink.id = 'itu-helper-fontawesome-css-backup';
+                fontAwesomeLink.rel = 'stylesheet';
+                fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css';
+                document.head.appendChild(fontAwesomeLink);
+                
+                // Add explicit FA styles as a last resort
+                const faStyles = document.createElement('style');
+                faStyles.textContent = `
+                    .fa-solid.fa-bars:before { content: "\\f0c9"; }
+                    .fa-solid.fa-times:before { content: "\\f00d"; }
+                `;
+                document.head.appendChild(faStyles);
+            }
         }
     }
 })();
