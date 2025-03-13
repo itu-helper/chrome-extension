@@ -1,23 +1,36 @@
-# ITU Helper Chrome Eklentisi
+<div align="center">
 
-## Proje Hakkında
+![GitHub repo size](https://img.shields.io/github/repo-size/itu-helper/chrome-extension?label=Repository%20Size&logo=github&style=flat-square)
+![GitHub](https://img.shields.io/github/license/itu-helper/chrome-extension?label=License&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues-raw/itu-helper/chrome-extension?label=Issues&style=flat-square)
 
-ITU Helper, İstanbul Teknik Üniversitesi'nin dağınık web sitelerini bir araya getiren ve kolay erişim sağlayan bir Chrome eklentisidir. Üniversite öğrencilerinin ve personelinin sıklıkla kullandığı web sitelerine tek tıkla ulaşabilmesini amaçlamaktadır.
+# **ITU Helper**
 
-## Özellikler
+</div>
 
-- Tek tıkla ITU web sitelerine erişim
-- Kullanıcı dostu arayüz
-- Hızlı ve hafif yapı
-- Kolay kurulum
+<div align="left">
+    <img src="https://raw.githubusercontent.com/itu-helper/home/main/images/logo.png" align="right"
+     alt="ITU Helper Logo" width="180" height="180">
+</div>
+<div align="center">
 
-## Local Kurulum
+_İTÜ'lüler için İTÜ'lülerden_
 
-1. Bu repoyu bilgisayarınıza indirin veya klonlayın
-2. Chrome tarayıcınızı açın ve `chrome://extensions` adresine gidin
-3. Geliştirici modunu açın (sağ üst köşedeki düğme)
-4. "Paketlenmemiş öğe yükle" düğmesine tıklayın
-5. İndirdiğiniz klasörü seçin
+_ITU Helper_ İstanbul Teknik Üniversitesi öğrencilerine yardım etmek amacıyla ön şart görselleştirme, ders planı oluşturma ve resmi İTÜ sitelerini birleştirme gibi hizmetler sağlayan bir açık kaynaklı websitesidir.
+
+_ITU Helper_'a [_bu adresten_](https://itu-helper.github.io/home/) ulaşabilirsiniz.
+
+</div>
+<br>
+<br>
+<br>
+
+# **itu-helper/chrome-extension**
+
+## **Ne İşe Yarar?**
+
+İTÜ'nün dağınık web sitelerini, ITU Helper hizmetlerini ve diğer öğrenci sitelerini bir araya getiren ve kolay erişim sağlayan bir Chrome eklentisidir.
+
 
 ## Kullanım
 
