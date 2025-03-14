@@ -1,31 +1,33 @@
 /* Import Roboto font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 /* Apply Roboto to all elements except FontAwesome icons */
-#custom-nav, 
-#custom-nav-container, 
+#custom-nav,
+#custom-nav-container,
 #itu-navbar,
 #custom-nav *:not(.fa-solid):not(.fa-brands):not(.fa-regular),
 #custom-nav-container *:not(.fa-solid):not(.fa-brands):not(.fa-regular),
 #itu-navbar *:not(.fa-solid):not(.fa-brands):not(.fa-regular) {
-    font-family: 'Roboto', sans-serif !important;
+    font-family: "Roboto", sans-serif !important;
 }
 
 /* Fix FontAwesome icons */
-.fa-solid, .fa-brands, .fa-regular,
-#itu-navbar .fa-solid, 
-#itu-navbar .fa-brands, 
+.fa-solid,
+.fa-brands,
+.fa-regular,
+#itu-navbar .fa-solid,
+#itu-navbar .fa-brands,
 #itu-navbar .fa-regular,
-#custom-nav-container .fa-solid, 
-#custom-nav-container .fa-brands, 
+#custom-nav-container .fa-solid,
+#custom-nav-container .fa-brands,
 #custom-nav-container .fa-regular {
-    font-family: 'Font Awesome 6 Free' !important;
+    font-family: "Font Awesome 6 Free" !important;
 }
 
 .fa-brands,
 #itu-navbar .fa-brands,
 #custom-nav-container .fa-brands {
-    font-family: 'Font Awesome 6 Brands' !important;
+    font-family: "Font Awesome 6 Brands" !important;
 }
 
 .fa-solid,
@@ -35,13 +37,13 @@
 }
 
 /* Apply Roboto to all elements */
-#custom-nav, 
-#custom-nav-container, 
+#custom-nav,
+#custom-nav-container,
 #itu-navbar,
 #custom-nav *:not(.fa-solid):not(.fa-brands):not(.fa-regular),
 #custom-nav-container *:not(.fa-solid):not(.fa-brands):not(.fa-regular),
 #itu-navbar *:not(.fa-solid):not(.fa-brands):not(.fa-regular) {
-    font-family: 'Roboto', sans-serif !important;
+    font-family: "Roboto", sans-serif !important;
 }
 
 #custom-nav {
@@ -56,8 +58,8 @@
     display: flex !important;
     gap: 20px !important;
     align-items: center !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-    font-family: 'Roboto', sans-serif !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+    font-family: "Roboto", sans-serif !important;
     font-size: 16px !important;
     transition: transform 0.3s ease !important;
     box-sizing: border-box !important;
@@ -68,7 +70,7 @@
 
 #custom-nav * {
     box-sizing: border-box !important;
-    font-family: 'Roboto', sans-serif !important;
+    font-family: "Roboto", sans-serif !important;
 }
 
 #custom-nav a {
@@ -157,13 +159,27 @@
     font-family: FontAwesome !important; /* Keep FontAwesome for icons */
 }
 
-#custom-nav i.fa-door-open:before { content: "\f52b" !important; }
-#custom-nav i.fa-graduation-cap:before { content: "\f19d" !important; }
-#custom-nav i.fa-sitemap:before { content: "\f0e8" !important; }
-#custom-nav i.fa-credit-card:before { content: "\f09d" !important; }
-#custom-nav i.fa-book:before { content: "\f02d" !important; }
-#custom-nav i.fa-circle-question:before { content: "\f059" !important; }
-#custom-nav i.fa-envelope:before { content: "\f0e0" !important; }
+#custom-nav i.fa-door-open:before {
+    content: "\f52b" !important;
+}
+#custom-nav i.fa-graduation-cap:before {
+    content: "\f19d" !important;
+}
+#custom-nav i.fa-sitemap:before {
+    content: "\f0e8" !important;
+}
+#custom-nav i.fa-credit-card:before {
+    content: "\f09d" !important;
+}
+#custom-nav i.fa-book:before {
+    content: "\f02d" !important;
+}
+#custom-nav i.fa-circle-question:before {
+    content: "\f059" !important;
+}
+#custom-nav i.fa-envelope:before {
+    content: "\f0e0" !important;
+}
 
 #custom-nav .nav-links {
     display: flex !important;
@@ -181,7 +197,7 @@
     position: relative !important;
     z-index: 2147483647 !important;
     width: 100% !important;
-    font-family: 'Roboto', sans-serif !important;
+    font-family: "Roboto", sans-serif !important;
 }
 
 #custom-nav .nav-text {
@@ -218,10 +234,10 @@ body {
     height: 50px !important;
     min-height: 50px !important;
     overflow: visible !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
     transform: translateY(0) !important;
     transition: transform 0.3s ease-in-out !important;
-    font-family: 'Roboto', sans-serif !important;
+    font-family: "Roboto", sans-serif !important;
 }
 
 /* Hidden state for navbar */
@@ -248,7 +264,7 @@ body {
     position: relative !important;
     margin: 0 !important;
     overflow: visible !important;
-    font-family: 'Roboto', sans-serif !important;
+    font-family: "Roboto", sans-serif !important;
     font-weight: 400 !important;
 }
 
@@ -300,7 +316,7 @@ body {
 }
 
 /* All links and current site styling */
-#itu-navbar a, 
+#itu-navbar a,
 #itu-navbar span.current-site {
     height: 40px !important;
     max-height: 40px !important;
@@ -361,7 +377,7 @@ body {
 #custom-nav-container.mobile-menu-open {
     height: auto !important;
     overflow: visible !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
 }
 
 #custom-nav-container.mobile-menu-open #itu-navbar {
@@ -375,16 +391,16 @@ body {
     #itu-navbar {
         position: relative !important;
     }
-    
+
     #itu-navbar .mobile-menu-toggle {
         display: flex !important;
     }
-    
+
     /* Mobile collapsed state */
     #itu-navbar .nav-links:not(.mobile-menu-open + #itu-navbar .nav-links) {
         display: none !important;
     }
-    
+
     /* Mobile expanded state */
     #custom-nav-container.mobile-menu-open .nav-links {
         display: flex !important;
@@ -396,15 +412,15 @@ body {
         background-color: #2a2a2a !important;
         z-index: 999998 !important;
     }
-    
+
     #custom-nav-container.mobile-menu-open .left-links {
         top: 50px !important;
     }
-    
+
     #custom-nav-container.mobile-menu-open .right-links {
         border-top: 1px solid #444 !important;
     }
-    
+
     #custom-nav-container.mobile-menu-open a,
     #custom-nav-container.mobile-menu-open span.current-site {
         width: 100% !important;
@@ -414,7 +430,7 @@ body {
         border-bottom: 1px solid #444 !important;
         font-weight: 500 !important;
     }
-    
+
     /* Smaller padding for links on mobile */
     #itu-navbar .nav-links.left-links a,
     #itu-navbar .nav-links.left-links span.current-site,
@@ -423,7 +439,7 @@ body {
         margin: 5px 1px !important;
         padding: 0 5px !important;
     }
-    
+
     /* First item in each section should be bolder */
     #custom-nav-container.mobile-menu-open .left-links a:first-child,
     #custom-nav-container.mobile-menu-open .right-links a:first-child {
@@ -433,8 +449,8 @@ body {
 
 /* Medium screens - hide some labels */
 @media screen and (min-width: 769px) and (max-width: 991px) {
-    #itu-navbar .left-links a:nth-child(n+4) .nav-text,
-    #itu-navbar .left-links span.current-site:nth-child(n+4) .nav-text {
+    #itu-navbar .left-links a:nth-child(n + 4) .nav-text,
+    #itu-navbar .left-links span.current-site:nth-child(n + 4) .nav-text {
         display: none !important;
     }
 }

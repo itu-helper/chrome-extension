@@ -1,114 +1,116 @@
 /* Styles for the ITU Helper navbar */
 
 #itu-navbar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background-color: #272727;
-    color: white;
-    padding: 0.5rem 1rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-    box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #272727;
+  color: white;
+  padding: 0.5rem 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  box-sizing: border-box;
 }
 
 #itu-navbar.nav-hidden {
-    transform: translateY(-100%);
+  transform: translateY(-100%);
 }
 
-#itu-navbar a, 
+#itu-navbar a,
 #itu-navbar .current-site {
-    color: white; /* White text for normal links */
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    margin: 0 0.25rem;
-    display: flex;
-    align-items: center;
-    transition: all 0.2s ease;
+  color: white;
+  /* White text for normal links */
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin: 0 0.25rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
 }
 
-#itu-navbar a:hover, 
+#itu-navbar a:hover,
 #itu-navbar .logo-container:hover {
-    background-color: rgb(137, 127, 100) !important;
-    color: white;
-    opacity: 0.85;
+  background-color: rgb(137, 127, 100) !important;
+  color: white;
+  opacity: 0.85;
 }
 
 #itu-navbar .current-site {
-    background-color: rgba(255, 255, 255, 0.15);
-    color: white;
-    font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-weight: bold;
 }
 
 #itu-navbar a.disabled {
-    color: #c99208; /* Use gold for disabled items */
-    opacity: 0.7;
-    cursor: not-allowed;
+  color: #c99208;
+  /* Use gold for disabled items */
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 #itu-navbar .nav-text {
-    margin-left: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 #itu-navbar .logo-container {
-    padding: 0.25rem;
-    border-radius: 4px;
-    margin-right: 1rem;
-    transition: background-color 0.2s ease;
+  padding: 0.25rem;
+  border-radius: 4px;
+  margin-right: 1rem;
+  transition: background-color 0.2s ease;
 }
 
 #itu-navbar .logo {
-    height: 30px;
-    width: auto;
+  height: 30px;
+  width: auto;
 }
 
 #itu-navbar .left-links {
-    margin-right: auto;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 #itu-navbar .right-links {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 /* Make navbar responsive */
 @media (max-width: 768px) {
-    #itu-navbar {
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 0.3rem 0.5rem;
-    }
-    
-    #itu-navbar .logo-container {
-        margin-right: 0.5rem;
-    }
-    
-    #itu-navbar .left-links,
-    #itu-navbar .right-links {
-        justify-content: center;
-        margin: 0.3rem 0;
-    }
-    
-    #itu-navbar a, 
-    #itu-navbar .current-site {
-        padding: 0.3rem 0.6rem;
-        margin: 0.2rem;
-        font-size: 0.9rem;
-    }
-    
-    #itu-navbar .logo {
-        height: 25px;
-    }
+  #itu-navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.3rem 0.5rem;
+  }
+
+  #itu-navbar .logo-container {
+    margin-right: 0.5rem;
+  }
+
+  #itu-navbar .left-links,
+  #itu-navbar .right-links {
+    justify-content: center;
+    margin: 0.3rem 0;
+  }
+
+  #itu-navbar a,
+  #itu-navbar .current-site {
+    padding: 0.3rem 0.6rem;
+    margin: 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  #itu-navbar .logo {
+    height: 25px;
+  }
 }
 
 /* Navbar container styles - updated */
@@ -128,7 +130,8 @@
 
 /* Mobile menu open state - updated */
 #custom-nav-container.mobile-menu-open .nav-links-container {
-  display: flex !important; /* Force display when menu is open */
+  display: flex !important;
+  /* Force display when menu is open */
   flex-direction: column;
   background-color: #272727;
   border-bottom: 1px solid #444;
@@ -150,7 +153,8 @@
 .custom-nav .logo-container {
   margin-right: 20px;
   display: inline-flex;
-  flex: 0 0 auto; /* Prevent stretching */
+  flex: 0 0 auto;
+  /* Prevent stretching */
   align-items: center;
 }
 
@@ -165,10 +169,12 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: white !important; /* Force color */
+  color: white !important;
+  /* Force color */
   cursor: pointer;
   padding: 8px;
-  z-index: 10001; /* Ensure it's clickable */
+  z-index: 10001;
+  /* Ensure it's clickable */
   align-items: center;
   justify-content: center;
   opacity: 1 !important;
@@ -194,7 +200,8 @@
   align-items: center;
 }
 
-.nav-links a, .nav-links .current-site {
+.nav-links a,
+.nav-links .current-site {
   display: flex;
   align-items: center;
   margin: 0 10px;
@@ -219,11 +226,12 @@
 /* Media queries for responsive design - updated */
 @media (max-width: 768px) {
   .mobile-menu-toggle {
-    display: flex !important; /* Force display on mobile */
+    display: flex !important;
+    /* Force display on mobile */
     background-color: transparent;
     visibility: visible !important;
   }
-  
+
   .nav-links-container {
     display: none;
     position: absolute;
@@ -232,45 +240,52 @@
     width: 100%;
     background-color: #272727;
     z-index: 10000;
-    min-height: 50px; /* Ensure minimum height for visibility */
+    min-height: 50px;
+    /* Ensure minimum height for visibility */
   }
-  
+
   #custom-nav-container.mobile-menu-open .nav-links-container {
     display: flex;
-    height: auto !important; /* Force height */
-    min-height: 100px; /* Ensure there's space for the menu items */
-    max-height: calc(100vh - 50px); /* Maximum height to prevent overflow */
-    overflow-y: auto; /* Add scroll if needed */
+    height: auto !important;
+    /* Force height */
+    min-height: 100px;
+    /* Ensure there's space for the menu items */
+    max-height: calc(100vh - 50px);
+    /* Maximum height to prevent overflow */
+    overflow-y: auto;
+    /* Add scroll if needed */
   }
-  
+
   .nav-links {
     flex-direction: column;
     width: 100%;
     align-items: flex-start;
     background-color: #272727;
-    height: auto !important; /* Force height */
+    height: auto !important;
+    /* Force height */
     min-height: inherit;
     padding: 10px 0;
   }
-  
+
   .nav-links.left-links {
     margin-bottom: 10px;
     padding: 5px 0;
     border-bottom: 1px solid #444;
   }
-  
+
   .nav-links.right-links {
     padding: 5px 0;
   }
-  
-  .nav-links a, .nav-links .current-site {
+
+  .nav-links a,
+  .nav-links .current-site {
     padding: 10px 20px;
     margin: 0;
     width: 100%;
     box-sizing: border-box;
     color: white;
   }
-  
+
   .nav-text {
     margin-left: 10px;
   }
@@ -289,7 +304,7 @@
 }
 
 /* Fix for mobile menu links display */
-#custom-nav-container.mobile-menu-open .nav-links a, 
+#custom-nav-container.mobile-menu-open .nav-links a,
 #custom-nav-container.mobile-menu-open .nav-links .current-site {
   display: flex !important;
   height: auto !important;
@@ -316,7 +331,8 @@ button.mobile-menu-toggle i.fas {
 }
 
 /* Ensure each menu item is visible */
-.nav-links a, .nav-links .current-site {
+.nav-links a,
+.nav-links .current-site {
   min-height: 20px !important;
   display: flex !important;
   padding: 10px 20px !important;
@@ -326,12 +342,13 @@ button.mobile-menu-toggle i.fas {
 
 /* Mobile specific fixes */
 @media (max-width: 768px) {
+
   /* Fix links container height */
   .nav-links-container {
     height: auto !important;
     min-height: 100px !important;
   }
-  
+
   /* Ensure mobile menu toggle is visible */
   .mobile-menu-toggle {
     display: flex !important;
@@ -346,7 +363,7 @@ button.mobile-menu-toggle i.fas {
     top: 5px !important;
     z-index: 10010 !important;
   }
-  
+
   /* Ensure mobile menu content is visible */
   #custom-nav-container.mobile-menu-open .nav-links {
     min-height: 40px !important;
@@ -356,7 +373,7 @@ button.mobile-menu-toggle i.fas {
     display: block !important;
     width: 100% !important;
   }
-  
+
   #custom-nav-container.mobile-menu-open .nav-links a,
   #custom-nav-container.mobile-menu-open .nav-links .current-site {
     margin: 5px 0 !important;
@@ -370,7 +387,7 @@ button.mobile-menu-toggle i.fas {
 
 /* Override any conflicting styles from earlier in the file */
 .mobile-menu-toggle i.fas {
-  color: white !important; 
+  color: white !important;
   display: inline-block !important;
   font-size: 24px !important;
   height: 24px !important;

@@ -13,7 +13,7 @@
         "https://ituprogram.com/*"
     ],
     "background": {
-        "service_worker": "src/scripts/background.js"
+        "service_worker": "src/background/background.js"
     },
     "content_scripts": [
         {
@@ -25,7 +25,10 @@
                 "https://itusenlikci.com/*",
                 "https://ituprogram.com/*"
             ],
-            "js": ["src/shared/sites-data.js", "src/scripts/content.js"],
+            "js": [
+                "src/shared/sites-data.js", 
+                "src/content/content.js"
+            ],
             "css": ["src/styles/styles.css", "src/styles/navbar-styles.css"],
             "run_at": "document_end"
         }
@@ -33,34 +36,21 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "src/styles/styles.css",
-                "src/styles/navbar-styles.css",
-                "src/shared/sites-data.js"
+                "src/*"
             ],
             "matches": ["<all_urls>"]
-        },
-        {
-            "resources": [
-                "assets/fontawesome/css/*",
-                "assets/fontawesome/webfonts/*"
-            ],
-            "matches": [
-                "*://*.itu.edu.tr/*",
-                "*://*.ari24.com/*",
-                "*://*.notkutusu.com/*"
-            ]
         }
     ],
     "icons": {
-        "16": "src/assets/icons/icon16.png",
-        "48": "src/assets/icons/icon48.png",
-        "128": "src/assets/icons/icon128.png"
+        "16": "assets/icons/icon16.png",
+        "48": "assets/icons/icon48.png",
+        "128": "assets/icons/icon128.png"
     },
     "action": {
         "default_icon": {
-            "16": "src/assets/icons/icon16.png",
-            "48": "src/assets/icons/icon48.png",
-            "128": "src/assets/icons/icon128.png"
+            "16": "assets/icons/icon16.png",
+            "48": "assets/icons/icon48.png",
+            "128": "assets/icons/icon128.png"
         },
         "default_title": "ITU Helper",
         "default_popup": "src/popup/popup.html"
