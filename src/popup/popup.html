@@ -1,135 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITU Helper</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      min-width: 300px;
-      padding: 12px;
-      background-color: #272727;
-      color: white;
-      margin: 0;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 15px;
-      color: #c99208;
-      text-align: center;
-      border-bottom: 1px solid #c99208;
-      padding-bottom: 8px;
-    }
-    .footer {
-      margin-top: 12px;
-      font-size: 12px;
-      text-align: center;
-      color: #888;
-    }
-    .toggle-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-    }
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 48px;
-      height: 24px;
-    }
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #484848;
-      transition: .4s;
-      border-radius: 24px;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: #c99208;
-    }
-    input:checked + .slider:before {
-      transform: translateX(24px);
-    }
-    .master-toggle {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #484848;
-    }
-    .master-toggle .toggle-container {
-      font-weight: bold;
-    }
-    .site-label {
-      font-size: 14px;
-    }
-    .save-message {
-      color: white; /* Changed from gold to white */
-      text-align: center;
-      font-size: 12px;
-      font-style: italic;
-      margin-top: 10px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .save-message.visible {
-      opacity: 1;
-    }
-    .sites-separator {
-      border: 0;
-      height: 1px;
-      background-color: #484848;
-      margin: 10px 0;
-    }
-  </style>
-</head>
-<body>
-  <h1>ITU Helper Ayarlar</h1>
-  <div class="container" id="togglesContainer">
-    <!-- These will be dynamically generated -->
-  </div>
-  
-  <div class="master-toggle">
-    <div class="toggle-container">
-      <span class="site-label">Navigasyon Çubuğunu Göster</span>
-      <label class="toggle-switch">
-        <input type="checkbox" id="navbar-toggle" checked>
-        <span class="slider"></span>
-      </label>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITU Helper</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        min-width: 300px;
+        padding: 12px;
+        background-color: #272727;
+        color: white;
+        margin: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #c99208;
+        text-align: center;
+        border-bottom: 1px solid #c99208;
+        padding-bottom: 8px;
+      }
+
+      .footer {
+        margin-top: 12px;
+        font-size: 12px;
+        text-align: center;
+        color: #888;
+      }
+
+      .toggle-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 24px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #484848;
+        transition: .4s;
+        border-radius: 24px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+      }
+
+      input:checked+.slider {
+        background-color: #c99208;
+      }
+
+      input:checked+.slider:before {
+        transform: translateX(24px);
+      }
+
+      .master-toggle {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #484848;
+      }
+
+      .master-toggle .toggle-container {
+        font-weight: bold;
+      }
+
+      .site-label {
+        font-size: 14px;
+      }
+
+      .save-message {
+        color: white;
+        /* Changed from gold to white */
+        text-align: center;
+        font-size: 12px;
+        font-style: italic;
+        margin-top: 10px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .save-message.visible {
+        opacity: 1;
+      }
+
+      .sites-separator {
+        border: 0;
+        height: 1px;
+        background-color: #484848;
+        margin: 10px 0;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <h1>ITU Helper Ayarlar</h1>
+    <div class="container" id="togglesContainer">
+      <!-- These will be dynamically generated -->
     </div>
-  </div>
-  
-  <div class="save-message">Tercihler Kaydedildi.</div>
-  
-  <div class="footer">
-    ITU Helper
-  </div>
-  <script src="../shared/sites-data.js"></script>
-  <script src="popup.js"></script>
-</body>
+
+    <div class="master-toggle">
+      <div class="toggle-container">
+        <span class="site-label">Navigasyon Çubuğunu Göster</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="navbar-toggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Add constant navbar toggle -->
+      <div class="toggle-container">
+        <span class="site-label">Navigasyon Çubuğunu Sabitle</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="constant-navbar-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="save-message">Tercihler Kaydedildi.</div>
+
+    <div class="footer">
+      ITU Helper
+    </div>
+    <script src="../shared/sites-data.js"></script>
+    <script src="popup.js"></script>
+  </body>
+
 </html>
