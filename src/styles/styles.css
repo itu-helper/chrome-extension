@@ -117,10 +117,15 @@
     margin-left: 20px;
     background-color: transparent !important;
     border: none !important;
+    pointer-events: auto !important;
 }
 
 #custom-nav .logo-container:hover {
     background-color: transparent !important;
+    opacity: 1 !important;
+    color: white !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
 }
 
 #custom-nav .logo {
@@ -453,4 +458,114 @@ body {
     #itu-navbar .left-links span.current-site:nth-child(n + 4) .nav-text {
         display: none !important;
     }
+}
+
+/* Handle webmail specific styling */
+#horde-head {
+    position: fixed !important;
+    top: 50px !important; /* Height of our custom navbar */
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 999998 !important; /* Just below our navbar */
+}
+
+/* Add padding to the webmail page content */
+body.hordeauth {
+    padding-top: 95px !important; /* Combined height of both navbars */
+}
+
+/* Ensure webmail dropdown menus appear correctly */
+.horde-dropdown {
+    position: relative !important;
+    z-index: 999997 !important; /* Below both navbars but above page content */
+}
+
+/* Handle Library website specifics */
+body.ui-body-b #custom-nav-container {
+    top: 45px !important; /* Position our navbar below the library header */
+    z-index: 999 !important; /* Below the library menu */
+}
+
+body.ui-body-b {
+    padding-top: 95px !important; /* Combined height of both navbars */
+}
+
+/* Only for ITU Library UI elements */
+.ui-header.ui-bar-c {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 1000 !important; /* Above our navbar */
+}
+
+.ui-panel-content-wrap {
+    margin-top: 45px !important; /* Space for library header */
+}
+
+/* Library responsive adjustments */
+@media screen and (max-width: 768px) {
+    body.ui-body-b #custom-nav-container.mobile-menu-open {
+        z-index: 1001 !important; /* Ensure mobile menu appears on top when opened */
+    }
+    
+    body.ui-body-b .nav-links-container.mobile-view {
+        top: 95px !important; /* Below both navbars */
+    }
+}
+
+/* Reset any library-specific styles that might interfere with our navbar */
+body.ui-body-b #itu-navbar a,
+body.ui-body-b #itu-navbar span.current-site,
+body.ui-body-b #itu-navbar .nav-text {
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+/* OBS Website specific styles - obs.itu.edu.tr */
+body.obs-body #custom-nav-container,
+html:has(.header__nav) #custom-nav-container {
+    top: 0 !important; /* Position at the top of the page */
+    z-index: 2147483647 !important; /* Maximum z-index to appear above everything */
+}
+
+/* Add padding to the page content on OBS site */
+body.obs-body,
+html:has(.header__nav) body {
+    padding-top: 50px !important; /* Just for our navbar height */
+}
+
+/* Push the OBS navbar down below our navbar */
+.header__nav {
+    position: relative !important;
+    top: 50px !important; /* Push down by the height of our navbar */
+    margin-bottom: 50px !important; /* Add margin to prevent content overlap */
+    z-index: 1000 !important; /* Below our navbar */
+}
+
+/* Ensure OBS dropdowns appear correctly */
+.header__nav .has-submenu ul,
+.header__main-menu ul {
+    z-index: 1500 !important; /* Above the OBS menu but below our navbar */
+}
+
+/* OBS responsive adjustments */
+@media screen and (max-width: 768px) {
+    body.obs-body #custom-nav-container.mobile-menu-open,
+    html:has(.header__nav) #custom-nav-container.mobile-menu-open {
+        z-index: 2147483647 !important; /* Maximum z-index when menu is open */
+    }
+    
+    /* No need for extra padding since our navbar is on top */
+    body.obs-body,
+    html:has(.header__nav) body {
+        padding-top: 50px !important; /* Just our navbar height */
+    }
+}
+
+/* Ensure our navbar doesn't interfere with OBS specific elements */
+.header__nav *,
+.header__main-menu * {
+    font-family: inherit !important; /* Preserve OBS font */
 }

@@ -286,7 +286,6 @@
                     label: "Portal",
                     icon: "fa-solid fa-door-open"
                 },
-                // ...existing code...
                 {
                     url: "https://webmail.itu.edu.tr",
                     label: "Webmail",
@@ -300,7 +299,6 @@
                     label: "Ön Şart Diyagramı",
                     icon: "fa-solid fa-sitemap"
                 },
-                // ...existing code...
                 {
                     url: "http://www.notkutusu.com/",
                     label: "Not Kutusu",
@@ -319,6 +317,52 @@
     }
 
     function renderNavbar(leftLinksHtml, rightLinksHtml) {
+        // Process the HTML to add icon-only class to items beyond the responsive limit
+        const processLinks = (html) => {
+            if (!html) return '';
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const links = tempDiv.querySelectorAll('a, span.current-site');
+            
+            // Apply initial icon-only classes based on default limit
+            // The actual display will be controlled by CSS media queries
+            links.forEach((link, index) => {
+                if (index >= 5) {
+                    link.classList.add('icon-only');
+                    link.classList.add('icon-only-always'); // Always icon-only regardless of screen size
+                    
+                    // Add data attribute for tooltip
+                    const navText = link.querySelector('.nav-text');
+                    if (navText) {
+                        link.setAttribute('data-tooltip', navText.textContent);
+                    }
+                } else if (index >= 3) {
+                    // These will become icon-only at smaller screens
+                    link.classList.add('icon-only-medium');
+                    
+                    // Add data attribute for tooltip
+                    const navText = link.querySelector('.nav-text');
+                    if (navText) {
+                        link.setAttribute('data-tooltip', navText.textContent);
+                    }
+                } else if (index >= 2) {
+                    // These will become icon-only at smaller screens
+                    link.classList.add('icon-only-small');
+                    
+                    // Add data attribute for tooltip
+                    const navText = link.querySelector('.nav-text');
+                    if (navText) {
+                        link.setAttribute('data-tooltip', navText.textContent);
+                    }
+                }
+            });
+            
+            return tempDiv.innerHTML;
+        };
+        
+        const processedLeftLinks = processLinks(leftLinksHtml);
+        const processedRightLinks = processLinks(rightLinksHtml);
+        
         nav.innerHTML = `
             <div class="logo-wrapper">
                 <a href="https://itu-helper.github.io/home" class="logo-container">
@@ -332,10 +376,10 @@
                 <!-- Desktop Layout -->
                 <div class="desktop-layout">
                     <div class="nav-links left-links">
-                        ${leftLinksHtml}
+                        ${processedLeftLinks}
                     </div>
                     <div class="nav-links right-links">
-                        ${rightLinksHtml}
+                        ${processedRightLinks}
                     </div>
                 </div>
                 
@@ -349,6 +393,173 @@
             </div>
         `;
         
+        // Create tooltips outside the navbar
+        setupExternalTooltips();
+        
+        // Add CSS for icon-only items
+        let iconOnlyStyles = document.getElementById('icon-only-styles');
+        if (!iconOnlyStyles) {
+            iconOnlyStyles = document.createElement('style');
+            iconOnlyStyles.id = 'icon-only-styles';
+            document.head.appendChild(iconOnlyStyles);
+            
+            iconOnlyStyles.textContent = `
+                /* Fix navbar overflow */
+                #itu-navbar {
+                    overflow: visible !important;
+                }
+                .nav-links {
+                    overflow: visible !important;
+                }
+                #custom-nav-container {
+                    overflow: visible !important;
+                }
+                
+                /* Base styles for icon-only items */
+                #itu-navbar .nav-links a.icon-only .nav-text,
+                #itu-navbar .nav-links span.icon-only .nav-text,
+                #itu-navbar .nav-links a.icon-only-always .nav-text,
+                #itu-navbar .nav-links span.icon-only-always .nav-text {
+                    display: none;
+                }
+                
+                /* Responsive behavior for medium screens */
+                @media (max-width: 1500px) {
+                    #itu-navbar .nav-links a.icon-only-medium .nav-text,
+                    #itu-navbar .nav-links span.icon-only-medium .nav-text {
+                        display: none;
+                    }
+                    #itu-navbar .nav-links a.icon-only-medium,
+                    #itu-navbar .nav-links span.icon-only-medium {
+                        position: relative;
+                        width: auto;
+                        padding: 0 12px;
+                    }
+                }
+                
+                /* Responsive behavior for small screens */
+                @media (max-width: 1200px) {
+                    #itu-navbar .nav-links a.icon-only-small .nav-text,
+                    #itu-navbar .nav-links span.icon-only-small .nav-text {
+                        display: none;
+                    }
+                    #itu-navbar .nav-links a.icon-only-small,
+                    #itu-navbar .nav-links span.icon-only-small {
+                        position: relative;
+                        width: auto;
+                        padding: 0 12px;
+                    }
+                }
+                
+                /* External tooltip style */
+                .itu-external-tooltip {
+                    display: none;
+                    position: fixed;
+                    background: #333;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 3px;
+                    z-index: 10000;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                    font-size: 14px;
+                    pointer-events: none;
+                    opacity: 0;
+                    transition: opacity 0.2s ease;
+                    white-space: nowrap;
+                    font-family: Arial, sans-serif;
+                }
+                
+                /* Arrow for tooltip */
+                .itu-external-tooltip:before {
+                    content: '';
+                    position: absolute;
+                    top: -5px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border-width: 0 5px 5px 5px;
+                    border-style: solid;
+                    border-color: transparent transparent #333 transparent;
+                }
+                
+                /* Position and styling for icon-only items */
+                #itu-navbar .nav-links a.icon-only,
+                #itu-navbar .nav-links span.icon-only,
+                #itu-navbar .nav-links a.icon-only-always,
+                #itu-navbar .nav-links span.icon-only-always {
+                    position: relative;
+                    width: auto;
+                    padding: 0 12px;
+                }
+                
+                /* Don't apply icon-only in mobile view */
+                .mobile-layout .mobile-links a.icon-only .nav-text,
+                .mobile-layout .mobile-links span.icon-only .nav-text,
+                .mobile-layout .mobile-links a.icon-only-medium .nav-text,
+                .mobile-layout .mobile-links span.icon-only-medium .nav-text,
+                .mobile-layout .mobile-links a.icon-only-small .nav-text,
+                .mobile-layout .mobile-links span.icon-only-small .nav-text,
+                .mobile-layout .mobile-links a.icon-only-always .nav-text,
+                .mobile-layout .mobile-links span.icon-only-always .nav-text {
+                    display: inline !important;
+                }
+            `;
+        }
+
+        // Setup event listeners for the tooltips
+        function setupExternalTooltips() {
+            // Remove any existing tooltips
+            document.querySelectorAll('.itu-external-tooltip').forEach(el => el.remove());
+            
+            // Create tooltip container that will be appended to body
+            const tooltip = document.createElement('div');
+            tooltip.className = 'itu-external-tooltip';
+            document.body.appendChild(tooltip);
+            
+            // Selector for all potential icon-only elements
+            const iconOnlySelector = '#itu-navbar .nav-links a.icon-only-always, ' +
+                                    '#itu-navbar .nav-links span.icon-only-always, ' +
+                                    '#itu-navbar .nav-links a.icon-only-medium, ' +
+                                    '#itu-navbar .nav-links span.icon-only-medium, ' +
+                                    '#itu-navbar .nav-links a.icon-only-small, ' +
+                                    '#itu-navbar .nav-links span.icon-only-small';
+            
+            // Add event listeners to all potential icon-only elements
+            document.querySelectorAll(iconOnlySelector).forEach(item => {
+                item.addEventListener('mouseenter', function(e) {
+                    // Check if the label is currently hidden (making it an icon-only item)
+                    const navText = this.querySelector('.nav-text');
+                    const isHidden = navText && (window.getComputedStyle(navText).display === 'none');
+                    
+                    if (!isHidden) return;
+                    
+                    const tooltipText = this.getAttribute('data-tooltip');
+                    if (!tooltipText) return;
+                    
+                    // Position the tooltip under the element
+                    const rect = this.getBoundingClientRect();
+                    tooltip.textContent = tooltipText;
+                    tooltip.style.display = 'block';
+                    tooltip.style.opacity = '1';
+                    
+                    // Position center-bottom of the element
+                    tooltip.style.top = (rect.bottom + 10) + 'px';
+                    tooltip.style.left = (rect.left + rect.width/2) + 'px';
+                    tooltip.style.transform = 'translateX(-50%)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    tooltip.style.display = 'none';
+                    tooltip.style.opacity = '0';
+                });
+            });
+        }
+
+        // Listen for window resize to update tooltips
+        window.addEventListener('resize', function() {
+            // Short delay to allow CSS media queries to apply first
+            setTimeout(setupExternalTooltips, 100);
+        });
+
         // Enhanced mobile menu toggle functionality
         const mobileToggle = nav.querySelector('.mobile-menu-toggle');
         if (mobileToggle) {

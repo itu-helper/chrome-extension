@@ -10,7 +10,8 @@
         "https://ari24.com/*",
         "http://www.notkutusu.com/*",
         "https://itusenlikci.com/*",
-        "https://ituprogram.com/*"
+        "https://ituprogram.com/*",
+        "https://publications.ebsco.com/*"
     ],
     "background": {
         "service_worker": "src/background/background.js"
@@ -23,7 +24,8 @@
                 "https://ari24.com/*",
                 "http://www.notkutusu.com/*",
                 "https://itusenlikci.com/*",
-                "https://ituprogram.com/*"
+                "https://ituprogram.com/*",
+                "https://publications.ebsco.com/*"
             ],
             "js": [
                 "src/shared/sites-data.js", 

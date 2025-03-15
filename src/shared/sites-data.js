@@ -38,6 +38,24 @@ const ITU_SITES = {
       label: "Webmail",
       icon: "fa-solid fa-envelope",
       hidden: false
+    },
+    {
+      url: "https://kutuphane.itu.edu.tr/",
+      label: "Kütüphane",
+      icon: "fa-solid fa-book-open",
+      hidden: true
+    },
+    {
+      url: "https://obs.itu.edu.tr/public/DersProgram",
+      label: "Ders Programları",
+      icon: "fa-solid fa-calendar-alt",
+      hidden: true
+    },
+    {
+      url: "https://obs.itu.edu.tr/public/DersPlan",
+      label: "Ders Planları",
+      icon: "fa-solid fa-calendar-week",
+      hidden: true
     }
   ],
 
@@ -71,6 +89,12 @@ const ITU_SITES = {
       url: "https://ituprogram.com/",
       label: "Program Arşivi",
       icon: "fa-solid fa-box-archive",
+      hidden: true
+    },
+    {
+      url: "https://itusenlikci.com/",
+      label: "Şenlikçi",
+      icon: "fa-solid fa-calendar-days",
       hidden: true
     }
   ],
