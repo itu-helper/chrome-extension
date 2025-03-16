@@ -31,7 +31,13 @@
                 "src/shared/sites-data.js", 
                 "src/content/content.js"
             ],
-            "css": ["src/styles/styles.css", "src/styles/navbar-styles.css"],
+            "css": [
+                "src/styles/styles.css", 
+                "src/styles/navbar-styles.css",
+                "src/styles/compatibility/webmail-styles.css",
+                "src/styles/compatibility/library-styles.css",
+                "src/styles/compatibility/obs-styles.css"
+            ],
             "run_at": "document_end"
         }
     ],

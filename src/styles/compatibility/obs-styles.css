@@ -1,0 +1,48 @@
+/* OBS Website specific styles */
+
+/* OBS Website specific styles - obs.itu.edu.tr */
+body.obs-body #custom-nav-container,
+html:has(.header__nav) #custom-nav-container {
+    top: 0 !important; /* Position at the top of the page */
+    z-index: 2147483647 !important; /* Maximum z-index to appear above everything */
+}
+
+/* Add padding to the page content on OBS site */
+body.obs-body,
+html:has(.header__nav) body {
+    padding-top: 50px !important; /* Just for our navbar height */
+}
+
+/* Push the OBS navbar down below our navbar */
+.header__nav {
+    position: relative !important;
+    top: 50px !important; /* Push down by the height of our navbar */
+    margin-bottom: 50px !important; /* Add margin to prevent content overlap */
+    z-index: 1000 !important; /* Below our navbar */
+}
+
+/* Ensure OBS dropdowns appear correctly */
+.header__nav .has-submenu ul,
+.header__main-menu ul {
+    z-index: 1500 !important; /* Above the OBS menu but below our navbar */
+}
+
+/* OBS responsive adjustments */
+@media screen and (max-width: 768px) {
+    body.obs-body #custom-nav-container.mobile-menu-open,
+    html:has(.header__nav) #custom-nav-container.mobile-menu-open {
+        z-index: 2147483647 !important; /* Maximum z-index when menu is open */
+    }
+    
+    /* No need for extra padding since our navbar is on top */
+    body.obs-body,
+    html:has(.header__nav) body {
+        padding-top: 50px !important; /* Just our navbar height */
+    }
+}
+
+/* Ensure our navbar doesn't interfere with OBS specific elements */
+.header__nav *,
+.header__main-menu * {
+    font-family: inherit !important; /* Preserve OBS font */
+}

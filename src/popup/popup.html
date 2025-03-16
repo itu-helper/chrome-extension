@@ -125,6 +125,25 @@
         margin: 10px 0;
       }
 
+      .feedback-button {
+        display: block;
+        width: 100%;
+        padding: 8px 0;
+        margin-top: 15px;
+        background-color: #484848;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.3s ease;
+      }
+
+      .feedback-button:hover {
+        background-color: #c99208;
+      }
+
     </style>
   </head>
 
@@ -154,6 +173,8 @@
     </div>
 
     <div class="save-message">Tercihler Kaydedildi.</div>
+
+    <button class="feedback-button" id="feedback-button">Sorun Bildir</button>
 
     <div class="footer">
       ITU Helper

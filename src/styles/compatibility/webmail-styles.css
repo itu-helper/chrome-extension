@@ -1,0 +1,21 @@
+/* Webmail specific styles */
+
+/* Handle webmail specific styling */
+#horde-head {
+    position: fixed !important;
+    top: 50px !important; /* Height of our custom navbar */
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 999998 !important; /* Just below our navbar */
+}
+
+/* Add padding to the webmail page content */
+body.hordeauth {
+    padding-top: 95px !important; /* Combined height of both navbars */
+}
+
+/* Ensure webmail dropdown menus appear correctly */
+.horde-dropdown {
+    position: relative !important;
+    z-index: 999997 !important; /* Below both navbars but above page content */
+}

@@ -199,4 +199,12 @@ document.addEventListener('DOMContentLoaded', function () {
       saveMessage.classList.remove('visible');
     }, 2000);
   }
+  
+  // Add event listener for the feedback button
+  const feedbackButton = document.getElementById('feedback-button');
+  if (feedbackButton) {
+    feedbackButton.addEventListener('click', function() {
+      chrome.tabs.create({ url: 'https://github.com/itu-helper/chrome-extension/issues/new' });
+    });
+  }
 });

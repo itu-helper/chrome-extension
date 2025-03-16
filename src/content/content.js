@@ -1,35 +1,35 @@
 (function () {
-    if (document.getElementById("itu-navbar")) return; // Avoid duplication - use itu-navbar as the main ID
+    // Exit early if navbar already exists to prevent duplication
+    if (document.getElementById("itu-navbar")) return;
 
-    // Ensure styles are loaded
+    // Load required stylesheets for navbar
     const linkElement = document.createElement('link');
     linkElement.rel = 'stylesheet';
     linkElement.type = 'text/css';
     linkElement.href = chrome.runtime.getURL('src/styles/styles.css');
     document.head.appendChild(linkElement);
 
-    // Add navbar styles
     const navbarStylesLink = document.createElement('link');
     navbarStylesLink.rel = 'stylesheet';
     navbarStylesLink.type = 'text/css';
     navbarStylesLink.href = chrome.runtime.getURL('src/styles/navbar-styles.css');
     document.head.appendChild(navbarStylesLink);
 
-    // Create a container for the navbar
+    // Create container for navbar
     const navContainer = document.createElement("div");
     navContainer.id = "custom-nav-container";
     document.body.insertAdjacentElement('afterbegin', navContainer);
 
-    // Set padding on document body
+    // Set padding on document body to account for fixed navbar
     document.body.style.paddingTop = '50px';
     document.body.style.marginTop = '0';
 
-    // Ensure the navbar is 50px tall - redundancy to make sure it works
+    // Apply padding after a short delay to ensure it's applied
     setTimeout(() => {
         document.body.style.paddingTop = '50px';
     }, 100);
 
-    // Load Font Awesome directly instead of via external script
+    // Load Font Awesome
     if (!document.getElementById('itu-helper-fontawesome-css')) {
         const fontAwesomeLink = document.createElement('link');
         fontAwesomeLink.id = 'itu-helper-fontawesome-css';
@@ -46,53 +46,54 @@
         document.head.appendChild(script);
     }
 
-    // Add the shared sites data script - load it directly into the page
+    // Load sites data script and initialize navbar when loaded
     const sitesDataScript = document.createElement('script');
     sitesDataScript.src = chrome.runtime.getURL('src/shared/sites-data.js');
     sitesDataScript.onload = function() {
-        initNavbar(); // Initialize navbar after sites data is loaded
+        initNavbar();
     };
     document.head.appendChild(sitesDataScript);
 
-    // Create the actual navbar inside the regular DOM
+    // Create navbar structure
     const nav = document.createElement("div");
     nav.id = "itu-navbar";
     nav.className = "custom-nav";
     navContainer.appendChild(nav);
 
-    // Add a buffer div to push content down
+    // Add buffer div to push page content down
     const buffer = document.createElement('div');
     buffer.id = 'itu-navbar-buffer';
     navContainer.after(buffer);
 
-    // Include all the remaining functionality from the previous content.js
-    // Get current URL
+    // Initialize variables
     const currentUrl = window.location.href;
     let lastScrollTop = 0;
     let scrollThreshold = 100;
     let isNavbarConstant = false;
 
-    // Helper function to generate HTML for links with site visibility check
+    /**
+     * Generates HTML for links with site visibility checking
+     * 
+     * @param {Array} sites - Array of site objects to generate links for
+     * @returns {Promise} - Promise resolving to HTML string
+     */
     function generateLinksHtml(sites) {
         return new Promise((resolve) => {
             chrome.storage.sync.get(['navbarSites', 'showNavbar'], function (data) {
                 let html = '';
 
-                // Get default settings if no saved preferences
+                // Get default settings or use saved preferences
                 const defaultSettings = window.ITU_SITES ?
                     window.ITU_SITES.getDefaultSettings() : {};
-
-                // Use saved preferences if available, otherwise use defaults
                 const siteSettings = data.navbarSites || defaultSettings;
 
                 for (const site of sites) {
-                    // Skip this site if it's explicitly disabled in settings or hidden by default
+                    // Skip sites explicitly disabled in settings
                     if (siteSettings[site.url] === false) {
                         continue;
                     }
 
-                    const iconClass = site.icon;
-                    const iconHtml = `<i class="${iconClass}" aria-hidden="true"></i>`;
+                    const iconHtml = `<i class="${site.icon}" aria-hidden="true"></i>`;
 
                     if (currentUrl.startsWith(site.url)) {
                         html += `<span class="current-site">${iconHtml}<span class="nav-text">${site.label}</span></span>`;
@@ -105,20 +106,21 @@
         });
     }
 
-    // Legacy helper function to generate HTML for links respecting default hidden status
+    /**
+     * Legacy function for generating links HTML (used as fallback)
+     */
     function generateLinksHtmlLegacy(sites) {
         return new Promise((resolve) => {
             chrome.storage.sync.get(['navbarSites'], function (data) {
                 let html = '';
                 for (const site of sites) {
-                    // Skip sites that are hidden by default or explicitly in settings
+                    // Skip hidden sites
                     if ((site.hidden && !data.navbarSites) ||
                         (data.navbarSites && data.navbarSites[site.url] === false)) {
                         continue;
                     }
 
-                    const iconClass = site.icon;
-                    const iconHtml = `<i class="${iconClass}" aria-hidden="true"></i>`;
+                    const iconHtml = `<i class="${site.icon}" aria-hidden="true"></i>`;
 
                     if (currentUrl.startsWith(site.url)) {
                         html += `<span class="current-site">${iconHtml}<span class="nav-text">${site.label}</span></span>`;
@@ -131,18 +133,22 @@
         });
     }
 
-    // Function to update the navbar without page reload 
+    /**
+     * Updates navbar without page reload
+     * @param {Object} settings - Optional settings to use for update
+     */
     function updateITUNavbar(settings) {
-        // If settings are passed, use them; otherwise, call updateNavbar which will fetch settings
         if (settings) {
-            // Use settings to update the navbar
             updateNavbar(settings);
         } else {
             updateNavbar();
         }
     }
 
-    // Function to adjust navbar for different screen sizes
+    /**
+     * Adjusts navbar display based on screen size
+     * Handles mobile vs desktop layouts
+     */
     function adjustNavbarForScreenSize() {
         const windowWidth = window.innerWidth;
         const mobileToggle = nav.querySelector('.mobile-menu-toggle');
@@ -152,11 +158,11 @@
 
         const isMobile = windowWidth < 768;
 
-        // Toggle layouts - Fix: use style.display for both layouts
+        // Toggle layout visibility based on screen size
         if (desktopLayout) desktopLayout.style.display = isMobile ? "none" : "flex";
         if (mobileLayout) mobileLayout.style.display = isMobile ? "flex" : "none";
 
-        // Add custom CSS to fix styling issues
+        // Add custom CSS for layout handling
         let customStyles = document.getElementById('itu-helper-nav-styles');
         if (!customStyles) {
             customStyles = document.createElement('style');
@@ -195,19 +201,17 @@
             }
         `;
 
-        // Apply appropriate classes based on screen width
+        // Apply mobile-specific styling
         if (isMobile) {
-            // Show mobile toggle in small screens
             if (mobileToggle) {
                 mobileToggle.style.display = 'flex';
-                mobileToggle.style.visibility = 'visible'; // Ensure visibility
+                mobileToggle.style.visibility = 'visible';
             }
 
-            // Ensure mobile menu styling is applied
             if (navLinksContainer) {
                 navLinksContainer.classList.add('mobile-view');
 
-                // Keep the menu hidden unless it's explicitly open
+                // Show/hide menu based on open state
                 if (!navContainer.classList.contains('mobile-menu-open')) {
                     navLinksContainer.style.display = 'none';
                 } else {
@@ -217,30 +221,29 @@
                 }
             }
         } else {
-            // Hide mobile toggle in large screens
+            // Desktop-specific styling
             if (mobileToggle) {
                 mobileToggle.style.display = 'none';
             }
 
-            // Ensure desktop styling is applied
             if (navLinksContainer) {
                 navLinksContainer.classList.remove('mobile-view');
-                navLinksContainer.style.display = 'flex'; // Always show in desktop mode
+                navLinksContainer.style.display = 'flex';
                 navLinksContainer.style.height = '';
                 navLinksContainer.style.minHeight = '';
             }
 
-            // Ensure menu is not collapsed in desktop view
             navContainer.classList.remove('mobile-menu-open');
         }
 
-        // Double check FontAwesome is loaded
         ensureFontAwesomeIsLoaded();
     }
 
-    // Function to ensure FontAwesome is properly loaded
+    /**
+     * Ensures Font Awesome icons are properly loaded
+     * Adds backup loading if primary method fails
+     */
     function ensureFontAwesomeIsLoaded() {
-        // Check if FA styles are applied
         const testIcons = document.querySelectorAll('.fa-solid');
         
         if (testIcons.length > 0) {
@@ -248,7 +251,6 @@
             if (iconStyle.fontFamily !== '"Font Awesome 6 Free"' && 
                 iconStyle.fontFamily !== 'Font Awesome 6 Free') {
                 
-                // Reload FontAwesome if necessary
                 if (!document.getElementById('itu-helper-fontawesome-css-backup')) {
                     const fontAwesomeLink = document.createElement('link');
                     fontAwesomeLink.id = 'itu-helper-fontawesome-css-backup';
@@ -256,7 +258,7 @@
                     fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css';
                     document.head.appendChild(fontAwesomeLink);
 
-                    // Add explicit FA styles as a last resort
+                    // Add fallback icon styles
                     const faStyles = document.createElement('style');
                     faStyles.textContent = `
                         .fa-solid.fa-times:before { content: "\\f00d"; }
@@ -268,9 +270,11 @@
         }
     }
 
-    // Function to update navbar with sites
+    /**
+     * Updates navbar content with site links
+     */
     function updateNavbar(settings) {
-        // If we can access the sites data from the injected script
+        // Use ITU_SITES if available (preferred)
         if (window.ITU_SITES) {
             Promise.all([
                 generateLinksHtml(window.ITU_SITES.leftSites),
@@ -279,7 +283,7 @@
                 renderNavbar(leftLinksHtml, rightLinksHtml);
             });
         } else {
-            // Use the original hardcoded lists if shared data isn't available
+            // Fallback to hardcoded site lists
             const leftSites = [
                 {
                     url: "https://portal.itu.edu.tr",
@@ -306,7 +310,6 @@
                 }
             ];
 
-            // Generate HTML for left and right links with promise support
             Promise.all([
                 generateLinksHtmlLegacy(leftSites),
                 generateLinksHtmlLegacy(rightSites)
@@ -316,40 +319,42 @@
         }
     }
 
+    /**
+     * Renders the navbar with provided links and sets up interaction handlers
+     * 
+     * @param {string} leftLinksHtml - HTML for left side links
+     * @param {string} rightLinksHtml - HTML for right side links
+     */
     function renderNavbar(leftLinksHtml, rightLinksHtml) {
-        // Process the HTML to add icon-only class to items beyond the responsive limit
+        // Process links to add icon-only classes for responsive display
         const processLinks = (html) => {
             if (!html) return '';
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = html;
             const links = tempDiv.querySelectorAll('a, span.current-site');
             
-            // Apply initial icon-only classes based on default limit
-            // The actual display will be controlled by CSS media queries
+            // Apply icon-only classes based on position
             links.forEach((link, index) => {
                 if (index >= 5) {
                     link.classList.add('icon-only');
-                    link.classList.add('icon-only-always'); // Always icon-only regardless of screen size
+                    link.classList.add('icon-only-always'); 
                     
-                    // Add data attribute for tooltip
                     const navText = link.querySelector('.nav-text');
                     if (navText) {
                         link.setAttribute('data-tooltip', navText.textContent);
                     }
                 } else if (index >= 3) {
-                    // These will become icon-only at smaller screens
+                    // Icon-only at medium screens
                     link.classList.add('icon-only-medium');
                     
-                    // Add data attribute for tooltip
                     const navText = link.querySelector('.nav-text');
                     if (navText) {
                         link.setAttribute('data-tooltip', navText.textContent);
                     }
                 } else if (index >= 2) {
-                    // These will become icon-only at smaller screens
+                    // Icon-only at small screens
                     link.classList.add('icon-only-small');
                     
-                    // Add data attribute for tooltip
                     const navText = link.querySelector('.nav-text');
                     if (navText) {
                         link.setAttribute('data-tooltip', navText.textContent);
@@ -363,6 +368,7 @@
         const processedLeftLinks = processLinks(leftLinksHtml);
         const processedRightLinks = processLinks(rightLinksHtml);
         
+        // Build navbar HTML
         nav.innerHTML = `
             <div class="logo-wrapper">
                 <a href="https://itu-helper.github.io/home" class="logo-container">
@@ -393,7 +399,6 @@
             </div>
         `;
         
-        // Create tooltips outside the navbar
         setupExternalTooltips();
         
         // Add CSS for icon-only items
@@ -505,62 +510,7 @@
             `;
         }
 
-        // Setup event listeners for the tooltips
-        function setupExternalTooltips() {
-            // Remove any existing tooltips
-            document.querySelectorAll('.itu-external-tooltip').forEach(el => el.remove());
-            
-            // Create tooltip container that will be appended to body
-            const tooltip = document.createElement('div');
-            tooltip.className = 'itu-external-tooltip';
-            document.body.appendChild(tooltip);
-            
-            // Selector for all potential icon-only elements
-            const iconOnlySelector = '#itu-navbar .nav-links a.icon-only-always, ' +
-                                    '#itu-navbar .nav-links span.icon-only-always, ' +
-                                    '#itu-navbar .nav-links a.icon-only-medium, ' +
-                                    '#itu-navbar .nav-links span.icon-only-medium, ' +
-                                    '#itu-navbar .nav-links a.icon-only-small, ' +
-                                    '#itu-navbar .nav-links span.icon-only-small';
-            
-            // Add event listeners to all potential icon-only elements
-            document.querySelectorAll(iconOnlySelector).forEach(item => {
-                item.addEventListener('mouseenter', function(e) {
-                    // Check if the label is currently hidden (making it an icon-only item)
-                    const navText = this.querySelector('.nav-text');
-                    const isHidden = navText && (window.getComputedStyle(navText).display === 'none');
-                    
-                    if (!isHidden) return;
-                    
-                    const tooltipText = this.getAttribute('data-tooltip');
-                    if (!tooltipText) return;
-                    
-                    // Position the tooltip under the element
-                    const rect = this.getBoundingClientRect();
-                    tooltip.textContent = tooltipText;
-                    tooltip.style.display = 'block';
-                    tooltip.style.opacity = '1';
-                    
-                    // Position center-bottom of the element
-                    tooltip.style.top = (rect.bottom + 10) + 'px';
-                    tooltip.style.left = (rect.left + rect.width/2) + 'px';
-                    tooltip.style.transform = 'translateX(-50%)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    tooltip.style.display = 'none';
-                    tooltip.style.opacity = '0';
-                });
-            });
-        }
-
-        // Listen for window resize to update tooltips
-        window.addEventListener('resize', function() {
-            // Short delay to allow CSS media queries to apply first
-            setTimeout(setupExternalTooltips, 100);
-        });
-
-        // Enhanced mobile menu toggle functionality
+        // Set up mobile menu toggle
         const mobileToggle = nav.querySelector('.mobile-menu-toggle');
         if (mobileToggle) {
             mobileToggle.addEventListener('click', function (e) {
@@ -578,7 +528,7 @@
                     }
                 }
 
-                // Force redraw of the mobile menu
+                // Force redraw of mobile menu
                 const navLinksContainer = nav.querySelector('.nav-links-container');
                 if (navLinksContainer) {
                     navLinksContainer.style.display = 'none';
@@ -591,20 +541,68 @@
             });
         }
 
-        // Add responsive behavior for small screens
+        // Add responsive behavior
         adjustNavbarForScreenSize();
         window.addEventListener('resize', adjustNavbarForScreenSize);
 
-        // Check if navbar should be shown
+        // Check navbar visibility setting
         chrome.storage.sync.get(['showNavbar'], function (data) {
             navContainer.style.display = data.showNavbar === false ? 'none' : 'block';
         });
     }
 
-    // Initialize scroll behavior for hiding/showing navbar
+    /**
+     * Sets up tooltip functionality for icon-only elements
+     */
+    function setupExternalTooltips() {
+        document.querySelectorAll('.itu-external-tooltip').forEach(el => el.remove());
+        
+        const tooltip = document.createElement('div');
+        tooltip.className = 'itu-external-tooltip';
+        document.body.appendChild(tooltip);
+        
+        const iconOnlySelector = '#itu-navbar .nav-links a.icon-only-always, ' +
+                                '#itu-navbar .nav-links span.icon-only-always, ' +
+                                '#itu-navbar .nav-links a.icon-only-medium, ' +
+                                '#itu-navbar .nav-links span.icon-only-medium, ' +
+                                '#itu-navbar .nav-links a.icon-only-small, ' +
+                                '#itu-navbar .nav-links span.icon-only-small';
+        
+        document.querySelectorAll(iconOnlySelector).forEach(item => {
+            item.addEventListener('mouseenter', function(e) {
+                // Check if label is currently hidden (making it an icon-only item)
+                const navText = this.querySelector('.nav-text');
+                const isHidden = navText && (window.getComputedStyle(navText).display === 'none');
+                
+                if (!isHidden) return;
+                
+                const tooltipText = this.getAttribute('data-tooltip');
+                if (!tooltipText) return;
+                
+                // Position tooltip under the element
+                const rect = this.getBoundingClientRect();
+                tooltip.textContent = tooltipText;
+                tooltip.style.display = 'block';
+                tooltip.style.opacity = '1';
+                
+                tooltip.style.top = (rect.bottom + 10) + 'px';
+                tooltip.style.left = (rect.left + rect.width/2) + 'px';
+                tooltip.style.transform = 'translateX(-50%)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                tooltip.style.display = 'none';
+                tooltip.style.opacity = '0';
+            });
+        });
+    }
+
+    /**
+     * Initializes scroll behavior for hiding/showing navbar based on scroll direction
+     */
     function initScrollBehavior() {
         window.addEventListener('scroll', function () {
-            // If navbar is set to constant, don't hide it on scroll
+            // Don't hide navbar if it's set to constant
             if (isNavbarConstant) {
                 navContainer.classList.remove('nav-hidden');
                 return;
@@ -612,28 +610,28 @@
 
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-            // If scrolled down more than threshold
+            // When scrolling down beyond threshold, hide navbar
             if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
                 navContainer.classList.add('nav-hidden');
 
-                // Also close the mobile menu if it's open when scrolling down
+                // Close mobile menu when scrolling down
                 if (navContainer.classList.contains('mobile-menu-open')) {
                     navContainer.classList.remove('mobile-menu-open');
 
-                    // Update the icon to the hamburger icon
+                    // Update hamburger icon
                     const iconElement = nav.querySelector('.mobile-menu-toggle i');
                     if (iconElement) {
                         iconElement.className = 'fa-solid fa-bars';
                     }
 
-                    // Hide the mobile menu
+                    // Hide mobile menu
                     const navLinksContainer = nav.querySelector('.nav-links-container');
                     if (navLinksContainer && navLinksContainer.classList.contains('mobile-view')) {
                         navLinksContainer.style.display = 'none';
                     }
                 }
             }
-            // If scrolled up or at the top
+            // When scrolling up or at top, show navbar
             else if (scrollTop < lastScrollTop || scrollTop <= 0) {
                 navContainer.classList.remove('nav-hidden');
             }
@@ -641,12 +639,12 @@
             lastScrollTop = scrollTop;
         });
         
-        // Check the setting once on load
+        // Check setting on load
         chrome.storage.sync.get(['constantNavbar'], function (data) {
             isNavbarConstant = data.constantNavbar === true;
         });
 
-        // Listen for changes to the setting
+        // Listen for setting changes
         chrome.storage.onChanged.addListener(function (changes) {
             if (changes.constantNavbar) {
                 isNavbarConstant = changes.constantNavbar.newValue === true;
@@ -654,7 +652,9 @@
         });
     }
 
-    // Function to initialize navbar
+    /**
+     * Main initialization function for navbar
+     */
     function initNavbar() {
         updateNavbar();
         initScrollBehavior();
@@ -666,23 +666,19 @@
             }
         });
 
-        // Listen for messages to update the navbar
+        // Listen for messages from popup or other extension components
         chrome.runtime.onMessage.addListener(function (request) {
             if (request.action === "updateNavbar") {
-                // Get the current settings from storage
                 chrome.storage.sync.get(['navbarSites', 'showNavbar'], function (data) {
-                    console.log("Navbar settings retrieved:", data);
                     updateITUNavbar(data);
                 });
                 return true;
             }
-            // Add handler for toggling constant navbar
             else if (request.action === "toggleConstantNavbar") {
                 if (request.constant) {
                     navContainer.classList.remove('nav-hidden');
                 } else {
                     // When turning off constant mode, check scroll position
-                    // to determine if navbar should be hidden
                     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                     if (scrollTop > scrollThreshold) {
                         navContainer.classList.add('nav-hidden');
@@ -694,7 +690,7 @@
             }
         });
 
-        // Register the updater function globally
+        // Register updater function globally for other scripts to use
         window.updateITUNavbar = updateITUNavbar;
     }
 })();

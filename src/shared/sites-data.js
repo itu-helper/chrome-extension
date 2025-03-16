@@ -10,7 +10,7 @@ const ITU_SITES = {
       hidden: false
     },
     {
-      url: "https://obs.itu.edu.tr",
+      url: "https://obs.itu.edu.tr/ogrenci/",
       label: "OBS (Kepler)",
       icon: "fa-solid fa-graduation-cap",
       hidden: false
@@ -55,6 +55,12 @@ const ITU_SITES = {
       url: "https://obs.itu.edu.tr/public/DersPlan",
       label: "Ders Planları",
       icon: "fa-solid fa-calendar-week",
+      hidden: true
+    },
+    {
+      url: "https://www.mathavuz.itu.edu.tr/",
+      label: "Mat Havuz",
+      icon: "fa-solid fa-calculator",
       hidden: true
     }
   ],
