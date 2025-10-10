@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITU Helper</title>
-    <style>
+  <style>
+      /* Compact popup styles to fit more toggles */
       body {
         font-family: Arial, sans-serif;
-        min-width: 300px;
-        padding: 12px;
+        min-width: 260px;
+        padding: 8px;
         background-color: #272727;
         color: white;
         margin: 0;
@@ -18,21 +19,69 @@
       .container {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 6px;
       }
 
       h1 {
-        font-size: 20px;
-        margin-bottom: 15px;
+        font-size: 16px;
+        margin: 0 0 8px 0;
         color: #c99208;
         text-align: center;
         border-bottom: 1px solid #c99208;
-        padding-bottom: 8px;
+        padding: 4px 0 6px 0;
+        line-height: 1;
+      }
+
+      /* Header with logo on the left and title on the right */
+      .popup-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+
+      .popup-logo-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease, opacity 0.2s ease;
+      }
+
+      .popup-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 6px;
+        overflow: hidden;
+        background: transparent; /* remove default bg */
+      }
+
+      .popup-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Hover / active effects similar to the navbar */
+      .popup-logo-link:hover,
+      .popup-logo-link:focus {
+        background-color: rgb(137, 127, 100);
+        color: white;
+        opacity: 0.95;
+      }
+
+      .popup-logo-link:active {
+        opacity: 0.85;
       }
 
       .footer {
-        margin-top: 12px;
-        font-size: 12px;
+        margin-top: 8px;
+        font-size: 11px;
         text-align: center;
         color: #888;
       }
@@ -41,14 +90,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 8px 0;
+        padding: 4px 0;
       }
 
       .toggle-switch {
         position: relative;
         display: inline-block;
-        width: 48px;
-        height: 24px;
+        width: 40px;
+        height: 20px;
       }
 
       .toggle-switch input {
@@ -64,20 +113,20 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #484848;
-        transition: .4s;
-        border-radius: 24px;
+        background-color: #3d3d3d;
+        transition: .25s;
+        border-radius: 20px;
       }
 
       .slider:before {
         position: absolute;
         content: "";
-        height: 18px;
-        width: 18px;
+        height: 14px;
+        width: 14px;
         left: 3px;
         bottom: 3px;
         background-color: white;
-        transition: .4s;
+        transition: .25s;
         border-radius: 50%;
       }
 
@@ -86,13 +135,13 @@
       }
 
       input:checked+.slider:before {
-        transform: translateX(24px);
+        transform: translateX(20px);
       }
 
       .master-toggle {
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px solid #484848;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #3d3d3d;
       }
 
       .master-toggle .toggle-container {
@@ -100,18 +149,31 @@
       }
 
       .site-label {
+        font-size: 13px;
+      }
+
+      /* Site icon next to toggle label */
+      .site-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        color: #cfcfcf;
+      }
+
+      .site-icon i {
         font-size: 14px;
       }
 
       .save-message {
         color: white;
-        /* Changed from gold to white */
         text-align: center;
-        font-size: 12px;
+        font-size: 11px;
         font-style: italic;
-        margin-top: 10px;
+        margin-top: 6px;
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.2s ease;
       }
 
       .save-message.visible {
@@ -121,34 +183,78 @@
       .sites-separator {
         border: 0;
         height: 1px;
-        background-color: #484848;
-        margin: 10px 0;
+        background-color: #3d3d3d;
+        margin: 6px 0;
       }
 
       .feedback-button {
         display: block;
         width: 100%;
-        padding: 8px 0;
-        margin-top: 15px;
-        background-color: #484848;
+        padding: 6px 0;
+        margin-top: 10px;
+        background-color: #3d3d3d;
         color: white;
         border: none;
         border-radius: 4px;
-        font-size: 14px;
+        font-size: 13px;
         cursor: pointer;
         text-align: center;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.2s ease;
       }
 
       .feedback-button:hover {
         background-color: #c99208;
       }
 
+      /* Make the toggles container scrollable if too tall and visually distinct */
+      #togglesContainer {
+        max-height: 420px; /* allow scrolling in the popup */
+        overflow: auto;
+        padding: 6px 6px 4px 6px; /* internal spacing for the light panel */
+        padding-right: 6px; /* avoid scrollbar overlap */
+        background-color: #2f2f2f; /* slightly lighter than the popup background */
+        border-radius: 6px;
+        border: 1px solid #3a3a3a;
+      }
+
+      /* Themed scrollbar for Chromium-based browsers */
+      #togglesContainer::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      #togglesContainer::-webkit-scrollbar-track {
+        background: #2b2b2b; /* dark track */
+      }
+
+      #togglesContainer::-webkit-scrollbar-thumb {
+        background-color: #4a4a4a; /* dark thumb */
+        border-radius: 6px;
+        border: 2px solid #2b2b2b; /* create padding effect */
+      }
+
+      #togglesContainer::-webkit-scrollbar-thumb:hover {
+        background-color: #5e5e5e;
+      }
+
+      /* Firefox scrollbar theming */
+      #togglesContainer {
+        scrollbar-width: thin;
+        scrollbar-color: #4a4a4a #2b2b2b;
+      }
+
     </style>
   </head>
 
   <body>
-    <h1>ITU Helper Ayarlar</h1>
+    <div class="popup-header">
+      <a class="popup-logo-link" href="https://itu-helper.github.io/home/" target="_blank" rel="noopener noreferrer" aria-label="ITU Helper Home">
+        <span class="popup-logo">
+          <img src="../../assets/icons/icon48.png" alt="ITU Helper">
+        </span>
+      </a>
+      <h1>ITU Helper Ayarlar</h1>
+    </div>
     <div class="container" id="togglesContainer">
       <!-- These will be dynamically generated -->
     </div>
@@ -174,12 +280,16 @@
 
     <div class="save-message">Tercihler Kaydedildi.</div>
 
-    <button class="feedback-button" id="feedback-button">Sorun Bildir</button>
+    <div style="display:flex; gap:8px; margin-top:12px;">
+      <button class="feedback-button" id="feedback-button" style="flex:1">Sorun Bildir</button>
+      <button class="feedback-button" id="reset-defaults-btn" style="flex:1">Varsayılana Dön</button>
+    </div>
 
     <div class="footer">
       ITU Helper
     </div>
     <script src="../shared/sites-data.js"></script>
+    <script src="../shared/font-awesome-loader.js"></script>
     <script src="popup.js"></script>
   </body>
 

@@ -3,6 +3,40 @@ document.addEventListener('DOMContentLoaded', function () {
   const saveMessage = document.querySelector('.save-message');
   const togglesContainer = document.getElementById('togglesContainer');
 
+  // Helper to check if a given URL belongs to one of the known ITU sites
+  // Falls back to the previous hardcoded domain substrings if `window.ITU_SITES` is not available
+  function isRelevantSiteUrl(url) {
+    if (!url) return false;
+    try {
+      const parsed = new URL(url);
+
+      if (window.ITU_SITES && typeof window.ITU_SITES.getAllSites === 'function') {
+        const sites = window.ITU_SITES.getAllSites().filter(s => !s.isSeparator);
+        for (const site of sites) {
+          if (!site || !site.url) continue;
+          try {
+            const siteParsed = new URL(site.url);
+            if (parsed.hostname === siteParsed.hostname) return true;
+          } catch (e) {
+            // If site.url isn't a full URL, fall back to substring check
+          }
+
+          // Also allow exact prefix matches (some site URLs include paths)
+          if (url.startsWith(site.url)) return true;
+          // Last resort: substring match for legacy support
+          if (url.includes(site.url)) return true;
+        }
+        return false;
+      }
+
+      // Fallback to legacy hardcoded checks
+      return url.includes('itu.edu.tr');
+    } catch (e) {
+      // Not a valid URL (e.g. chrome://). Use substring fallback
+      return url.includes('itu.edu.tr');
+    }
+  }
+
   // Function to generate toggles for all sites
   function generateToggles() {
     if (window.ITU_SITES) {
@@ -18,13 +52,21 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
           const toggleContainer = document.createElement('div');
           toggleContainer.className = 'toggle-container';
+
+          // Build inner markup including the site's icon (if present)
+          const iconHtml = site.icon ? `<span class="site-icon"><i class="${site.icon}"></i></span>` : '';
+
           toggleContainer.innerHTML = `
-            <span class="site-label">${site.label}</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              ${iconHtml}
+              <span class="site-label">${site.label}</span>
+            </div>
             <label class="toggle-switch">
               <input type="checkbox" class="site-toggle" data-url="${site.url}" ${site.hidden ? '' : 'checked'}>
               <span class="slider"></span>
             </label>
           `;
+
           togglesContainer.appendChild(toggleContainer);
         }
       });
@@ -97,9 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // First update the current active tab to see changes immediately
       chrome.tabs.query({ active: true, currentWindow: true }, function (activeTabs) {
         const activeTab = activeTabs[0];
-        if (activeTab && (activeTab.url.includes('itu.edu.tr') ||
-          activeTab.url.includes('ari24.com') ||
-          activeTab.url.includes('notkutusu.com'))) {
+        if (activeTab && isRelevantSiteUrl(activeTab.url)) {
           console.log("Sending updateNavbar message to active tab:", activeTab.id);
           chrome.tabs.sendMessage(activeTab.id, {
             action: "updateNavbar",
@@ -120,9 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Skip the active tab as we've already updated it
             if (activeTab && tab.id === activeTab.id) return;
 
-            if (tab.url && (tab.url.includes('itu.edu.tr') ||
-              tab.url.includes('ari24.com') ||
-              tab.url.includes('notkutusu.com'))) {
+        if (tab.url && isRelevantSiteUrl(tab.url)) {
               console.log("Sending updateNavbar message to tab:", tab.id);
               chrome.tabs.sendMessage(tab.id, { action: "updateNavbar" })
                 .catch(error => {
@@ -173,9 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // If we're toggling across all tabs, update other tabs too
     chrome.tabs.query({}, function (tabs) {
       tabs.forEach(tab => {
-        if (tab.url && (tab.url.includes('itu.edu.tr') ||
-          tab.url.includes('ari24.com') ||
-          tab.url.includes('notkutusu.com'))) {
+        if (tab.url && isRelevantSiteUrl(tab.url)) {
           chrome.tabs.sendMessage(tab.id, {
             action: "toggleConstantNavbar",
             constant: constantNavbarToggle.checked
@@ -205,6 +241,67 @@ document.addEventListener('DOMContentLoaded', function () {
   if (feedbackButton) {
     feedbackButton.addEventListener('click', function() {
       chrome.tabs.create({ url: 'https://github.com/itu-helper/chrome-extension/issues/new' });
+    });
+  }
+
+  // Add event listener for the reset defaults button
+  const resetDefaultsButton = document.getElementById('reset-defaults-btn');
+  if (resetDefaultsButton) {
+    resetDefaultsButton.addEventListener('click', function () {
+      // Get default settings from ITU_SITES if available
+      const defaultSettings = window.ITU_SITES ? window.ITU_SITES.getDefaultSettings() : {};
+
+      // Save default settings into storage. Also reset constantNavbar and showNavbar to defaults
+      const defaultShowNavbar = true;
+      const defaultConstantNavbar = false;
+
+      chrome.storage.sync.set({
+        navbarSites: defaultSettings,
+        showNavbar: defaultShowNavbar,
+        constantNavbar: defaultConstantNavbar
+      }, function () {
+        // Update the UI toggles to reflect defaults
+        const siteToggles = document.querySelectorAll('.site-toggle');
+        siteToggles.forEach(toggle => {
+          const url = toggle.dataset.url;
+          toggle.checked = defaultSettings[url] !== false;
+        });
+
+        // Update master navbar toggle
+        const navbarToggleEl = document.getElementById('navbar-toggle');
+        if (navbarToggleEl) navbarToggleEl.checked = defaultShowNavbar;
+
+        // Update constant navbar toggle
+        const constantNavbarToggleEl = document.getElementById('constant-navbar-toggle');
+        if (constantNavbarToggleEl) constantNavbarToggleEl.checked = defaultConstantNavbar;
+
+        // Show saved message
+        showSavedMessage();
+
+        // Notify active tab first for immediate update, then other tabs
+        chrome.tabs.query({ active: true, currentWindow: true }, function (activeTabs) {
+          const activeTab = activeTabs[0];
+      if (activeTab && activeTab.url && isRelevantSiteUrl(activeTab.url)) {
+            chrome.tabs.sendMessage(activeTab.id, {
+              action: 'updateNavbar',
+              immediate: true,
+              settings: { navbarSites: defaultSettings, showNavbar: defaultShowNavbar }
+            }).catch(() => { /* ignore */ });
+          }
+
+          // Notify other tabs
+          chrome.tabs.query({}, function (tabs) {
+            tabs.forEach(tab => {
+              if (activeTab && tab.id === activeTab.id) return;
+              if (tab.url && isRelevantSiteUrl(tab.url)) {
+                chrome.tabs.sendMessage(tab.id, {
+                  action: 'updateNavbar'
+                }).catch(() => { /* ignore */ });
+              }
+            });
+          });
+        });
+      });
     });
   }
 });

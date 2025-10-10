@@ -100,7 +100,7 @@ const ITU_SITES = {
     {
       url: "https://itusenlikci.com/",
       label: "Şenlikçi",
-      icon: "fa-solid fa-calendar-days",
+      icon: "fa-solid fa-calendar-check",
       hidden: true
     }
   ],
