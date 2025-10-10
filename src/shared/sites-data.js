@@ -34,7 +34,7 @@ const ITU_SITES = {
       hidden: true
     },
     {
-      url: "https://webmail.itu.edu.tr",
+      url: "https://yeni.webmail.itu.edu.tr/",
       label: "Webmail",
       icon: "fa-solid fa-envelope",
       hidden: false
@@ -101,6 +101,12 @@ const ITU_SITES = {
       url: "https://itusenlikci.com/",
       label: "Şenlikçi",
       icon: "fa-solid fa-calendar-check",
+      hidden: true
+    },
+    {
+      url: "https://itusihirbaz.com/",
+      label: "Sihirbaz",
+      icon: "fa-solid fa-wand-magic-sparkles",
       hidden: true
     }
   ],

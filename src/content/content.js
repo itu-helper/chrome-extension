@@ -289,12 +289,26 @@
                 {
                     url: "https://portal.itu.edu.tr",
                     label: "Portal",
-                    icon: "fa-solid fa-door-open"
+                    icon: "fa-solid fa-door-open",
+                    hidden: false
                 },
                 {
-                    url: "https://webmail.itu.edu.tr",
+                    url: "https://obs.itu.edu.tr/ogrenci/",
+                    label: "OBS (Kepler)",
+                    icon: "fa-solid fa-graduation-cap",
+                    hidden: false
+                },
+                {
+                    url: "https://ninova.itu.edu.tr/Kampus1",
+                    label: "Ninova",
+                    icon: "fa-solid fa-book",
+                    hidden: false
+                },
+                {
+                    url: "https://yeni.webmail.itu.edu.tr/",
                     label: "Webmail",
-                    icon: "fa-solid fa-envelope"
+                    icon: "fa-solid fa-envelope",
+                    hidden: false
                 }
             ];
 
@@ -303,11 +317,6 @@
                     url: "https://itu-helper.github.io/prereq-scheduler/prerequsitory_chains",
                     label: "Ön Şart Diyagramı",
                     icon: "fa-solid fa-sitemap"
-                },
-                {
-                    url: "http://www.notkutusu.com/",
-                    label: "Not Kutusu",
-                    icon: "fa-solid fa-notes-medical"
                 }
             ];
 

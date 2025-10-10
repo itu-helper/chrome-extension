@@ -76,33 +76,26 @@
                     {
                         url: "https://portal.itu.edu.tr",
                         label: "Portal",
-                        icon: "fa-solid fa-door-open"
+                        icon: "fa-solid fa-door-open",
+                        hidden: false
                     },
                     {
-                        url: "https://obs.itu.edu.tr",
+                        url: "https://obs.itu.edu.tr/ogrenci/",
                         label: "OBS (Kepler)",
-                        icon: "fa-solid fa-graduation-cap"
-                    },
-                    {
-                        url: "https://smartpay.itu.edu.tr",
-                        label: "Smartpay",
-                        icon: "fa-solid fa-credit-card",
-                        hidden: true
+                        icon: "fa-solid fa-graduation-cap",
+                        hidden: false
                     },
                     {
                         url: "https://ninova.itu.edu.tr/Kampus1",
                         label: "Ninova",
-                        icon: "fa-solid fa-book"
+                        icon: "fa-solid fa-book",
+                        hidden: false
                     },
                     {
-                        url: "https://yardim.itu.edu.tr",
-                        label: "İTÜ Yardım",
-                        icon: "fa-solid fa-circle-question"
-                    },
-                    {
-                        url: "https://webmail.itu.edu.tr",
+                        url: "https://yeni.webmail.itu.edu.tr/",
                         label: "Webmail",
-                        icon: "fa-solid fa-envelope"
+                        icon: "fa-solid fa-envelope",
+                        hidden: false
                     }
                 ];
 
@@ -111,16 +104,6 @@
                         url: "https://itu-helper.github.io/prereq-scheduler/prerequsitory_chains",
                         label: "Ön Şart Diyagramı",
                         icon: "fa-solid fa-sitemap"
-                    },
-                    {
-                        url: "https://ari24.com/",
-                        label: "ari24",
-                        icon: "fa-solid fa-newspaper"
-                    },
-                    {
-                        url: "http://www.notkutusu.com/",
-                        label: "Not Kutusu",
-                        icon: "fa-solid fa-notes-medical"
                     }
                 ];
 
