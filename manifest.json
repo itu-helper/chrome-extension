@@ -26,21 +26,34 @@
                 "http://www.notkutusu.com/*",
                 "https://itusenlikci.com/*",
                 "https://ituprogram.com/*",
-                "https://publications.ebsco.com/*",
                 "https://itusihirbaz.com/*"
             ],
-            "js": [
-                "src/shared/sites-data.js", 
-                "src/content/content.js"
-            ],
+            "js": ["src/shared/sites-data.js", "src/content/content.js"],
             "css": [
-                "src/styles/styles.css", 
-                "src/styles/navbar-styles.css",
-                "src/styles/compatibility/webmail-styles.css",
-                "src/styles/compatibility/library-styles.css",
-                "src/styles/compatibility/obs-styles.css"
+                "src/styles/styles.css",
+                "src/styles/navbar-styles.css"
             ],
             "run_at": "document_end"
+        },
+        {
+            "matches": ["https://ari24.com/*"],
+            "css": ["src/styles/compatibility/ari24-styles.css"]
+        },
+        {
+            "matches": ["http://www.notkutusu.com/*"],
+            "css": ["src/styles/compatibility/notkutusu-styles.css"]
+        },
+        {
+            "matches": ["https://www.mathavuz.itu.edu.tr/*"],
+            "css": ["src/styles/compatibility/mathavuz-styles.css"]
+        },
+        {
+            "matches": ["https://kutuphane.itu.edu.tr/*"],
+            "css": ["src/styles/compatibility/library-styles.css"]
+        },
+        {
+            "matches": ["https://yeni.webmail.itu.edu.tr/*", "https://webmail.itu.edu.tr/*"],
+            "css": ["src/styles/compatibility/webmail-styles.css"]
         }
     ],
     "web_accessible_resources": [

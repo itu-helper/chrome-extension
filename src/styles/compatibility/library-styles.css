@@ -1,5 +1,9 @@
 /* Library website specific styles */
 
+div.header__inner{
+    margin-top: 45px !important;
+}
+
 /* Handle Library website specifics */
 body.ui-body-b #custom-nav-container {
     top: 45px !important; /* Position our navbar below the library header */

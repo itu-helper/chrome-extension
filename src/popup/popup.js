@@ -233,12 +233,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to show saved message
   function showSavedMessage() {
-    const saveMessage = document.querySelector('.save-message');
-    saveMessage.classList.add('visible');
+    // const saveMessage = document.querySelector('.save-message');
+    // saveMessage.classList.add('visible');
 
-    setTimeout(function () {
-      saveMessage.classList.remove('visible');
-    }, 2000);
+    // setTimeout(function () {
+    //   saveMessage.classList.remove('visible');
+    // }, 2000);
   }
   
   // Add event listener for the feedback button

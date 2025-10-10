@@ -1,0 +1,5 @@
+/* Compatibility styles for https://www.mathavuz.itu.edu.tr/ */
+
+nav, div.baslik {
+    margin-top: 40px !important;
+}
