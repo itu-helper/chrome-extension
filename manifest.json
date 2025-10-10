@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "ITU Helper",
     "version": "1.0",
-    "description": "Helper extension for ITU students providing easy access to university websites",
+    "description": "İTÜ'lülerin kullandığı çeşitli siteleri birbirine bağlayan ve daha akıcı bir deneyim sunan bir tarayıcı uzantısı.",
     "permissions": ["activeTab", "storage"],
     "host_permissions": [
         "*://*.itu.edu.tr/*",
