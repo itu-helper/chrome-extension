@@ -191,7 +191,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initialize toggle state from storage
   chrome.storage.sync.get(['constantNavbar'], function (data) {
-    constantNavbarToggle.checked = data.constantNavbar === true;
+    // Default to true when not set explicitly
+    if (data.constantNavbar === undefined) {
+      constantNavbarToggle.checked = true;
+    } else {
+      constantNavbarToggle.checked = data.constantNavbar === true;
+    }
   });
 
   // Add event listener for toggle changes
@@ -252,8 +257,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const defaultSettings = window.ITU_SITES ? window.ITU_SITES.getDefaultSettings() : {};
 
       // Save default settings into storage. Also reset constantNavbar and showNavbar to defaults
-      const defaultShowNavbar = true;
-      const defaultConstantNavbar = false;
+  const defaultShowNavbar = true;
+  const defaultConstantNavbar = true;
 
       chrome.storage.sync.set({
         navbarSites: defaultSettings,

@@ -371,11 +371,12 @@ body {
 
 /* Buffer element styles */
 #itu-navbar-buffer {
-    width: 100% !important;
-    height: 50px !important;
-    display: block !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    width: 100%;
+    /* Default buffer height (can be overridden by script) */
+    height: 50px;
+    display: block;
+    margin: 0;
+    padding: 0;
 }
 
 /* Mobile menu open state */

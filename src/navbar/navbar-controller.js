@@ -22,25 +22,28 @@
       const siteSettings = data.navbarSites || defaultSettings;
 
       // Master toggle check
+      const buffer = document.querySelector('#itu-navbar-buffer');
       if (data.showNavbar === false) {
         navbar.style.display = 'none';
-        // Also hide the buffer
-        const buffer = document.querySelector('#itu-navbar-buffer');
-        if (buffer) buffer.style.display = 'none';
+        // Collapse buffer (buffer provides spacing)
+        if (buffer) {
+          buffer.style.setProperty('height', '0', 'important');
+          buffer.style.setProperty('display', 'none', 'important');
+        }
 
-        // Remove body padding when navbar is hidden
-        document.body.style.paddingTop = '0';
+        // Clear any body padding left by compatibility CSS
+        document.body.style.setProperty('padding-top', '0', 'important');
         return;
       } else {
         navbar.style.display = '';
-        // Show the buffer
-        const buffer = document.querySelector('#itu-navbar-buffer');
-        if (buffer) buffer.style.display = '';
+        // Show the buffer and set its height to the navbar height
+        if (buffer) buffer.style.removeProperty('display');
 
-        // Restore body padding when navbar is shown
         setTimeout(() => {
-          const exactHeight = navbar.offsetHeight;
-          document.body.style.paddingTop = exactHeight + 'px';
+          const exactHeight = navbar.offsetHeight || 50;
+          if (buffer) buffer.style.setProperty('height', exactHeight + 'px', 'important');
+          // Ensure body padding is cleared to avoid double spacing
+          document.body.style.setProperty('padding-top', '0', 'important');
         }, 50);
       }
 

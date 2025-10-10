@@ -20,14 +20,9 @@
     navContainer.id = "custom-nav-container";
     document.body.insertAdjacentElement('afterbegin', navContainer);
 
-    // Set padding on document body to account for fixed navbar
-    document.body.style.paddingTop = '50px';
+    // We use the buffer element to reserve space for the navbar.
+    // Avoid setting body padding here to prevent duplicate spacing.
     document.body.style.marginTop = '0';
-
-    // Apply padding after a short delay to ensure it's applied
-    setTimeout(() => {
-        document.body.style.paddingTop = '50px';
-    }, 100);
 
     // Load Font Awesome
     if (!document.getElementById('itu-helper-fontawesome-css')) {
@@ -60,10 +55,16 @@
     nav.className = "custom-nav";
     navContainer.appendChild(nav);
 
-    // Add buffer div to push page content down
-    const buffer = document.createElement('div');
-    buffer.id = 'itu-navbar-buffer';
-    navContainer.after(buffer);
+    // Add or reuse buffer div to push page content down
+    let buffer = document.getElementById('itu-navbar-buffer');
+    if (!buffer) {
+        buffer = document.createElement('div');
+        buffer.id = 'itu-navbar-buffer';
+        navContainer.after(buffer);
+    } else {
+        // Ensure buffer is positioned immediately after our container
+        navContainer.after(buffer);
+    }
 
     // Initialize variables
     const currentUrl = window.location.href;
@@ -547,7 +548,29 @@
 
         // Check navbar visibility setting
         chrome.storage.sync.get(['showNavbar'], function (data) {
-            navContainer.style.display = data.showNavbar === false ? 'none' : 'block';
+                const bufferEl = document.getElementById('itu-navbar-buffer');
+
+                if (data.showNavbar === false) {
+                    // Hide navbar container and collapse buffer (we rely on buffer for spacing)
+                    navContainer.style.display = 'none';
+                    if (bufferEl) {
+                        bufferEl.style.setProperty('height', '0', 'important');
+                        bufferEl.style.setProperty('display', 'none', 'important');
+                    }
+                    // Ensure body padding is cleared in case any compatibility CSS set it
+                    document.body.style.setProperty('padding-top', '0', 'important');
+                } else {
+                    // Show navbar and set buffer height to the navbar height (buffer provides spacing)
+                    navContainer.style.display = 'block';
+                    if (bufferEl) bufferEl.style.removeProperty('display');
+
+                    setTimeout(() => {
+                        const exactHeight = nav.offsetHeight || 50;
+                        if (bufferEl) bufferEl.style.setProperty('height', exactHeight + 'px', 'important');
+                        // Ensure body padding is 0 to avoid combined spacing
+                        document.body.style.setProperty('padding-top', '0', 'important');
+                    }, 50);
+                }
         });
     }
 

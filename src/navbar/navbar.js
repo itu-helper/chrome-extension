@@ -18,10 +18,15 @@
             this.nav.className = "custom-nav";
             this.navContainer.appendChild(this.nav);
             
-            // Add a buffer div to push content down
-            const buffer = document.createElement('div');
-            buffer.id = 'itu-navbar-buffer';
-            this.navContainer.after(buffer);
+            // Add or reuse a buffer div to push content down
+            let buffer = document.getElementById('itu-navbar-buffer');
+            if (!buffer) {
+                buffer = document.createElement('div');
+                buffer.id = 'itu-navbar-buffer';
+                this.navContainer.after(buffer);
+            } else {
+                this.navContainer.after(buffer);
+            }
             
             // Check initial constant navbar setting
             chrome.storage.sync.get(['constantNavbar'], data => {
@@ -195,9 +200,29 @@
             window.UIUtils.adjustNavbarForScreenSize(this.nav, this.navContainer);
             window.addEventListener('resize', () => window.UIUtils.adjustNavbarForScreenSize(this.nav, this.navContainer));
 
-            // Check if navbar should be shown
+            // Check if navbar should be shown and adjust buffer/padding accordingly
             chrome.storage.sync.get(['showNavbar'], data => {
-                this.navContainer.style.display = data.showNavbar === false ? 'none' : 'block';
+                const bufferEl = document.getElementById('itu-navbar-buffer');
+
+                if (data.showNavbar === false) {
+                    this.navContainer.style.display = 'none';
+                    if (bufferEl) {
+                        bufferEl.style.setProperty('height', '0', 'important');
+                        bufferEl.style.setProperty('display', 'none', 'important');
+                    }
+                    // Clear body padding set by compatibility CSS
+                    document.body.style.setProperty('padding-top', '0', 'important');
+                } else {
+                    this.navContainer.style.display = 'block';
+                    if (bufferEl) bufferEl.style.removeProperty('display');
+
+                    setTimeout(() => {
+                        const exactHeight = this.nav.offsetHeight || 50;
+                        if (bufferEl) bufferEl.style.setProperty('height', exactHeight + 'px', 'important');
+                        // Ensure body padding is cleared to avoid double spacing
+                        document.body.style.setProperty('padding-top', '0', 'important');
+                    }, 50);
+                }
             });
         },
         
