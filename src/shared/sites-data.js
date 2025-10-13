@@ -30,7 +30,7 @@ const ITU_SITES = {
     {
       url: "https://yardim.itu.edu.tr",
       label: "İTÜ Yardım",
-      icon: "fa-solid fa-circle-question",
+      icon: "fa-solid fa-life-ring",
       hidden: true
     },
     {
