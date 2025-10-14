@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const feedbackButton = document.getElementById('feedback-button');
   if (feedbackButton) {
     feedbackButton.addEventListener('click', function() {
-      chrome.tabs.create({ url: 'https://github.com/itu-helper/chrome-extension/issues/new' });
+      chrome.tabs.create({ url: 'https://github.com/itu-helper/chrome-extension/issues/new/choose' });
     });
   }
 
