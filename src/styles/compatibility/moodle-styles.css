@@ -1,0 +1,15 @@
+/* Compatibility styles for notkutusu.com */
+
+/* Override fixed positioning directly */
+nav.navbar.fixed-top {
+    position: fixed !important;
+    margin-top: 40px !important;
+}
+
+div #page {
+    margin-top: 40px !important;
+}
+
+div.drawer-toggler {
+    top: 120px !important;
+}

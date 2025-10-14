@@ -7,11 +7,11 @@
     "host_permissions": [
         "*://*.itu.edu.tr/*",
         "https://itu-helper.github.io/*",
+
         "https://ari24.com/*",
         "http://www.notkutusu.com/*",
         "https://itusenlikci.com/*",
         "https://ituprogram.com/*",
-        "https://publications.ebsco.com/*",
         "https://itusihirbaz.com/*"
     ],
     "background": {
@@ -22,6 +22,7 @@
             "matches": [
                 "*://*.itu.edu.tr/*",
                 "https://itu-helper.github.io/*",
+                
                 "https://ari24.com/*",
                 "http://www.notkutusu.com/*",
                 "https://itusenlikci.com/*",
@@ -54,6 +55,10 @@
         {
             "matches": ["https://yeni.webmail.itu.edu.tr/*", "https://webmail.itu.edu.tr/*"],
             "css": ["src/styles/compatibility/webmail-styles.css"]
+        },
+        {
+            "matches": ["https://moodle.itu.edu.tr/*"],
+            "css": ["src/styles/compatibility/moodle-styles.css"]
         }
     ],
     "web_accessible_resources": [

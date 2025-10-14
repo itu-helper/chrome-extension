@@ -28,6 +28,12 @@ const ITU_SITES = {
       hidden: false
     },
     {
+      url: "https://moodle.itu.edu.tr/",
+      label: "Moodle",
+      icon: "fa-solid fa-book-atlas",
+      hidden: true
+    },
+    {
       url: "https://smartpay.itu.edu.tr",
       label: "Smartpay",
       icon: "fa-solid fa-credit-card",
