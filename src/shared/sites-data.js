@@ -4,15 +4,27 @@ const ITU_SITES = {
   // Left-aligned sites
   leftSites: [
     {
+      url: "https://obs.itu.edu.tr/ogrenci/",
+      label: "OBS (Kepler)",
+      icon: "fa-solid fa-graduation-cap",
+      hidden: false
+    },
+    {
+      url: "https://ninova.itu.edu.tr/Kampus1",
+      label: "Ninova",
+      icon: "fa-solid fa-book",
+      hidden: false
+    },
+    {
       url: "https://portal.itu.edu.tr",
       label: "Portal",
       icon: "fa-solid fa-door-open",
       hidden: false
     },
     {
-      url: "https://obs.itu.edu.tr/ogrenci/",
-      label: "OBS (Kepler)",
-      icon: "fa-solid fa-graduation-cap",
+      url: "https://webmail.itu.edu.tr/",
+      label: "Webmail",
+      icon: "fa-solid fa-envelope",
       hidden: false
     },
     {
@@ -22,22 +34,10 @@ const ITU_SITES = {
       hidden: true
     },
     {
-      url: "https://ninova.itu.edu.tr/Kampus1",
-      label: "Ninova",
-      icon: "fa-solid fa-book",
-      hidden: false
-    },
-    {
       url: "https://yardim.itu.edu.tr",
       label: "İTÜ Yardım",
       icon: "fa-solid fa-life-ring",
       hidden: true
-    },
-    {
-      url: "https://yeni.webmail.itu.edu.tr/",
-      label: "Webmail",
-      icon: "fa-solid fa-envelope",
-      hidden: false
     },
     {
       url: "https://kutuphane.itu.edu.tr/",
@@ -80,12 +80,6 @@ const ITU_SITES = {
       hidden: false
     },
     {
-      url: "https://ari24.com",
-      label: "ari24",
-      icon: "fa-solid fa-newspaper",
-      hidden: true
-    },
-    {
       url: "http://www.notkutusu.com",
       label: "Not Kutusu",
       icon: "fa-solid fa-notes-medical",
@@ -107,6 +101,12 @@ const ITU_SITES = {
       url: "https://itusihirbaz.com/",
       label: "Sihirbaz",
       icon: "fa-solid fa-wand-magic-sparkles",
+      hidden: true
+    },
+    {
+      url: "https://ari24.com",
+      label: "ari24",
+      icon: "fa-solid fa-newspaper",
       hidden: true
     }
   ],
