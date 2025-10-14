@@ -3,9 +3,6 @@
     const ITUNavbar = {
         navContainer: null,
         nav: null,
-        lastScrollTop: 0,
-        scrollThreshold: 100,
-        isNavbarConstant: false,
         currentUrl: window.location.href,
         
         // Initialize the navbar
@@ -27,21 +24,6 @@
             } else {
                 this.navContainer.after(buffer);
             }
-            
-            // Check initial constant navbar setting
-            chrome.storage.sync.get(['constantNavbar'], data => {
-                this.isNavbarConstant = data.constantNavbar === true;
-            });
-            
-            // Set default value for constantNavbar if not already set
-            chrome.storage.sync.get(['constantNavbar'], data => {
-                if (data.constantNavbar === undefined) {
-                    chrome.storage.sync.set({ constantNavbar: false });
-                }
-            });
-
-            // Initialize scroll behavior
-            this.initScrollBehavior();
             
             // Initialize message listeners
             this.initMessageListeners();
@@ -183,36 +165,23 @@
             window.UIUtils.adjustNavbarForScreenSize(this.nav, this.navContainer);
             window.addEventListener('resize', () => window.UIUtils.adjustNavbarForScreenSize(this.nav, this.navContainer));
 
-            // Check if navbar should be shown and adjust buffer/padding accordingly
-            chrome.storage.sync.get(['showNavbar'], data => {
-                const bufferEl = document.getElementById('itu-navbar-buffer');
+            // Navbar is always visible - just adjust buffer height
+            const bufferEl = document.getElementById('itu-navbar-buffer');
+            this.navContainer.style.display = 'block';
+            if (bufferEl) bufferEl.style.removeProperty('display');
 
-                if (data.showNavbar === false) {
-                    this.navContainer.style.display = 'none';
-                    if (bufferEl) {
-                        bufferEl.style.setProperty('height', '0', 'important');
-                        bufferEl.style.setProperty('display', 'none', 'important');
-                    }
-                    // Clear body padding set by compatibility CSS
-                    document.body.style.setProperty('padding-top', '0', 'important');
-                } else {
-                    this.navContainer.style.display = 'block';
-                    if (bufferEl) bufferEl.style.removeProperty('display');
-
-                    setTimeout(() => {
-                        const exactHeight = this.nav.offsetHeight || 50;
-                        if (bufferEl) bufferEl.style.setProperty('height', exactHeight + 'px', 'important');
-                        // Ensure body padding is cleared to avoid double spacing
-                        document.body.style.setProperty('padding-top', '0', 'important');
-                    }, 50);
-                }
-            });
+            setTimeout(() => {
+                const exactHeight = this.nav.offsetHeight || 50;
+                if (bufferEl) bufferEl.style.setProperty('height', exactHeight + 'px', 'important');
+                // Ensure body padding is cleared to avoid double spacing
+                document.body.style.setProperty('padding-top', '0', 'important');
+            }, 50);
         },
         
         // Generate HTML for links
         generateLinksHtml: function(sites) {
             return new Promise(resolve => {
-                chrome.storage.sync.get(['navbarSites', 'showNavbar'], data => {
+                chrome.storage.sync.get(['navbarSites'], data => {
                     let html = '';
 
                     // Get default settings if no saved preferences
@@ -277,79 +246,15 @@
             }
         },
         
-        // Initialize scroll behavior for hiding/showing navbar
-        initScrollBehavior: function() {
-            window.addEventListener('scroll', () => {
-                // If navbar is set to constant, don't hide it on scroll
-                if (this.isNavbarConstant) {
-                    this.navContainer.classList.remove('nav-hidden');
-                    return;
-                }
-
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-                // If scrolled down more than threshold
-                if (scrollTop > this.lastScrollTop && scrollTop > this.scrollThreshold) {
-                    this.navContainer.classList.add('nav-hidden');
-
-                    // Also close the mobile menu if it's open when scrolling down
-                    if (this.navContainer.classList.contains('mobile-menu-open')) {
-                        this.navContainer.classList.remove('mobile-menu-open');
-
-                        // Update the icon to the hamburger icon
-                        const iconElement = this.nav.querySelector('.mobile-menu-toggle i');
-                        if (iconElement) {
-                            iconElement.className = 'fa-solid fa-bars';
-                        }
-
-                        // Hide the mobile menu
-                        const navLinksContainer = this.nav.querySelector('.nav-links-container');
-                        if (navLinksContainer && navLinksContainer.classList.contains('mobile-view')) {
-                            navLinksContainer.style.display = 'none';
-                        }
-                    }
-                }
-                // If scrolled up or at the top
-                else if (scrollTop < this.lastScrollTop || scrollTop <= 0) {
-                    this.navContainer.classList.remove('nav-hidden');
-                }
-
-                this.lastScrollTop = scrollTop;
-            });
-            
-            // Listen for changes to the constant navbar setting
-            chrome.storage.onChanged.addListener(changes => {
-                if (changes.constantNavbar) {
-                    this.isNavbarConstant = changes.constantNavbar.newValue === true;
-                }
-            });
-        },
-        
         // Initialize message listeners
         initMessageListeners: function() {
             chrome.runtime.onMessage.addListener(request => {
                 if (request.action === "updateNavbar") {
                     // Get the current settings from storage
-                    chrome.storage.sync.get(['navbarSites', 'showNavbar'], data => {
+                    chrome.storage.sync.get(['navbarSites'], data => {
                         console.log("Navbar settings retrieved:", data);
                         this.updateITUNavbar(data);
                     });
-                    return true;
-                }
-                // Add handler for toggling constant navbar
-                else if (request.action === "toggleConstantNavbar") {
-                    if (request.constant) {
-                        this.navContainer.classList.remove('nav-hidden');
-                    } else {
-                        // When turning off constant mode, check scroll position
-                        // to determine if navbar should be hidden
-                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                        if (scrollTop > this.scrollThreshold) {
-                            this.navContainer.classList.add('nav-hidden');
-                        } else {
-                            this.navContainer.classList.remove('nav-hidden');
-                        }
-                    }
                     return true;
                 }
             });
