@@ -3,7 +3,7 @@
 (function () {
   // Function to update the navbar based on saved preferences
   function updateNavbar() {
-    chrome.storage.sync.get(['navbarSites', 'showNavbar'], function (data) {
+    chrome.storage.sync.get(['navbarSites'], function (data) {
       // If updateITUNavbar is defined (from content.js), use it directly
       if (typeof window.updateITUNavbar === 'function') {
         window.updateITUNavbar(data);
@@ -21,31 +21,18 @@
       // Use saved preferences if available, otherwise use defaults
       const siteSettings = data.navbarSites || defaultSettings;
 
-      // Master toggle check
+      // Navbar is always visible - just adjust buffer height
       const buffer = document.querySelector('#itu-navbar-buffer');
-      if (data.showNavbar === false) {
-        navbar.style.display = 'none';
-        // Collapse buffer (buffer provides spacing)
-        if (buffer) {
-          buffer.style.setProperty('height', '0', 'important');
-          buffer.style.setProperty('display', 'none', 'important');
-        }
+      navbar.style.display = '';
+      // Show the buffer and set its height to the navbar height
+      if (buffer) buffer.style.removeProperty('display');
 
-        // Clear any body padding left by compatibility CSS
+      setTimeout(() => {
+        const exactHeight = navbar.offsetHeight || 50;
+        if (buffer) buffer.style.setProperty('height', exactHeight + 'px', 'important');
+        // Ensure body padding is cleared to avoid double spacing
         document.body.style.setProperty('padding-top', '0', 'important');
-        return;
-      } else {
-        navbar.style.display = '';
-        // Show the buffer and set its height to the navbar height
-        if (buffer) buffer.style.removeProperty('display');
-
-        setTimeout(() => {
-          const exactHeight = navbar.offsetHeight || 50;
-          if (buffer) buffer.style.setProperty('height', exactHeight + 'px', 'important');
-          // Ensure body padding is cleared to avoid double spacing
-          document.body.style.setProperty('padding-top', '0', 'important');
-        }, 50);
-      }
+      }, 50);
 
       // Update individual site links
       const navLinks = navbar.querySelectorAll('a');
@@ -103,7 +90,7 @@
 
   // Listen for changes to preferences
   chrome.storage.onChanged.addListener(function (changes) {
-    if (changes.navbarSites || changes.showNavbar) {
+    if (changes.navbarSites) {
       updateNavbar();
     }
   });
