@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
           toggleContainer.innerHTML = `
             <div style="display:flex; align-items:center; gap:8px;">
               ${iconHtml}
-              <span class="site-label">${site.label}</span>
+              <span class="site-label"><a href="${site.url}" target="_blank">${site.label}</a></span>
             </div>
             <label class="toggle-switch">
               <input type="checkbox" class="site-toggle" data-url="${site.url}" ${site.hidden ? '' : 'checked'}>
