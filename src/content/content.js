@@ -24,23 +24,6 @@
     // Avoid setting body padding here to prevent duplicate spacing.
     document.body.style.marginTop = '0';
 
-    // Load Font Awesome
-    if (!document.getElementById('itu-helper-fontawesome-css')) {
-        const fontAwesomeLink = document.createElement('link');
-        fontAwesomeLink.id = 'itu-helper-fontawesome-css';
-        fontAwesomeLink.rel = 'stylesheet';
-        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css';
-        document.head.appendChild(fontAwesomeLink);
-    }
-
-    if (!document.getElementById('itu-helper-fontawesome')) {
-        const script = document.createElement('script');
-        script.id = 'itu-helper-fontawesome';
-        script.src = 'https://kit.fontawesome.com/9e92a2c380.js';
-        script.crossOrigin = 'anonymous';
-        document.head.appendChild(script);
-    }
-
     // Load sites data script and initialize navbar when loaded
     const sitesDataScript = document.createElement('script');
     sitesDataScript.src = chrome.runtime.getURL('src/shared/sites-data.js');
@@ -232,39 +215,6 @@
             }
 
             navContainer.classList.remove('mobile-menu-open');
-        }
-
-        ensureFontAwesomeIsLoaded();
-    }
-
-    /**
-     * Ensures Font Awesome icons are properly loaded
-     * Adds backup loading if primary method fails
-     */
-    function ensureFontAwesomeIsLoaded() {
-        const testIcons = document.querySelectorAll('.fa-solid');
-        
-        if (testIcons.length > 0) {
-            const iconStyle = window.getComputedStyle(testIcons[0]);
-            if (iconStyle.fontFamily !== '"Font Awesome 6 Free"' && 
-                iconStyle.fontFamily !== 'Font Awesome 6 Free') {
-                
-                if (!document.getElementById('itu-helper-fontawesome-css-backup')) {
-                    const fontAwesomeLink = document.createElement('link');
-                    fontAwesomeLink.id = 'itu-helper-fontawesome-css-backup';
-                    fontAwesomeLink.rel = 'stylesheet';
-                    fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css';
-                    document.head.appendChild(fontAwesomeLink);
-
-                    // Add fallback icon styles
-                    const faStyles = document.createElement('style');
-                    faStyles.textContent = `
-                        .fa-solid.fa-times:before { content: "\\f00d"; }
-                        .fa-solid.fa-bars:before { content: "\\f0c9"; }
-                    `;
-                    document.head.appendChild(faStyles);
-                }
-            }
         }
     }
 
