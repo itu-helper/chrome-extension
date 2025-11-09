@@ -7,6 +7,7 @@
 ![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/cinnpmhpiddpbjmmdmlncnlfhjanigkl?label=CWS%20Rating)
 ![Chrome Web Store Rating Count](https://img.shields.io/chrome-web-store/rating-count/cinnpmhpiddpbjmmdmlncnlfhjanigkl?label=CWS%20Rating%20Count)
 ![Chrome Web Store Stars](https://img.shields.io/chrome-web-store/stars/cinnpmhpiddpbjmmdmlncnlfhjanigkl?label=CWS%20Stars)
+![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/cinnpmhpiddpbjmmdmlncnlfhjanigkl?label=CWS%20Users)
 
 
 # **ITU Helper**
