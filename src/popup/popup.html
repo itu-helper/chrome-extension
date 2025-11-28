@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITU Helper</title>
+    <link rel="stylesheet" href="../../css/fontawesome.min.css">
+    <link rel="stylesheet" href="../../css/regular.min.css">
   <style>
       /* Compact popup styles to fit more toggles */
       body {
@@ -248,6 +250,34 @@
         scrollbar-color: #4a4a4a #2b2b2b;
       }
 
+      /* PDF notification banner */
+      .pdf-notification {
+        display: none;
+        background-color: #c99208;
+        color: #272727;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .pdf-notification.visible {
+        display: block;
+      }
+
+      .pdf-notification-title {
+        font-weight: bold;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .pdf-notification-title i {
+        font-size: 14px;
+      }
+
     </style>
   </head>
 
@@ -260,6 +290,15 @@
       </a>
       <h1>ITU Helper Ayarlar</h1>
     </div>
+
+    <div class="pdf-notification" id="pdf-notification">
+      <div class="pdf-notification-title">
+        <i class="fa-solid fa-file-pdf"></i>
+        <span>PDF Görüntüleniyor</span>
+      </div>
+      <span>PDF görünümünden dolayı navigasyon çubuğu kapatıldı, buradan İTÜ sitelerine geri dönebilirsin.</span>
+    </div>
+
     <div class="container" id="togglesContainer">
       <!-- These will be dynamically generated -->
     </div>
@@ -293,7 +332,6 @@
       ITU Helper
     </div>
     <script src="../shared/sites-data.js"></script>
-    <script src="../shared/font-awesome-loader.js"></script>
     <script src="popup.js"></script>
   </body>
 

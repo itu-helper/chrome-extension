@@ -1,4 +1,15 @@
 (function() {
+    // Helper function to detect PDF viewer
+    function isPdfViewer() {
+        return (
+            window.location.pathname.toLowerCase().endsWith('.pdf') ||
+            document.querySelector('embed[type="application/pdf"]') ||
+            document.contentType === 'application/pdf' ||
+            (document.body && document.body.children.length === 1 && 
+             document.body.children[0].tagName === 'EMBED')
+        );
+    }
+
     // Main navbar object
     const ITUNavbar = {
         navContainer: null,
@@ -7,6 +18,9 @@
         
         // Initialize the navbar
         init: function(container) {
+            // Skip navbar initialization for PDF viewer
+            if (isPdfViewer()) return;
+            
             this.navContainer = container;
             
             // Create the actual navbar inside the container

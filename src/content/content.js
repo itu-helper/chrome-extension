@@ -2,6 +2,113 @@
     // Exit early if navbar already exists to prevent duplication
     if (document.getElementById("itu-navbar")) return;
 
+    // Exit early if viewing a PDF - Chrome uses a closed shadow root for PDF viewer
+    // and the navbar would block the PDF navigation controls
+    const isPdfViewer = (
+        window.location.pathname.toLowerCase().endsWith('.pdf') ||
+        document.querySelector('embed[type="application/pdf"]') ||
+        document.contentType === 'application/pdf' ||
+        // Chrome's PDF viewer injects an embed with the PDF plugin
+        (document.body && document.body.children.length === 1 && 
+         document.body.children[0].tagName === 'EMBED')
+    );
+    
+    if (isPdfViewer) {
+        // Notify background script that navbar is hidden due to PDF
+        chrome.runtime.sendMessage({ type: 'pdfDetected' });
+        
+        // Show an alert on the page explaining why the navbar is hidden
+        showPdfAlert();
+        return;
+    }
+    
+    // Function to show PDF alert toast
+    function showPdfAlert() {
+        // Load Font Awesome for the icon
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.type = 'text/css';
+        fontAwesomeLink.href = chrome.runtime.getURL('css/fontawesome.min.css');
+        document.head.appendChild(fontAwesomeLink);
+        
+        // Create the alert element
+        const alert = document.createElement('div');
+        alert.id = 'itu-pdf-alert';
+        alert.innerHTML = `
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                <i class="fa-solid fa-file-pdf" style="font-size: 18px; margin-top: 2px;"></i>
+                <div>
+                    <div style="font-weight: bold; margin-bottom: 4px;">PDF Görüntüleniyor</div>
+                    <div>PDF görünümünden dolayı navigasyon çubuğu kapatıldı, uzantı ikonundan İTÜ sitelerine geri dönebilirsin.</div>
+                </div>
+                <button id="itu-pdf-alert-close" style="background: none; border: none; color: white; cursor: pointer; padding: 0; margin-left: auto; font-size: 16px;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        `;
+        
+        // Style the alert
+        Object.assign(alert.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            backgroundColor: '#c99208',
+            color: '#272727',
+            padding: '12px 16px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+            zIndex: '999999',
+            maxWidth: '350px',
+            fontSize: '13px',
+            lineHeight: '1.4',
+            fontFamily: 'Arial, sans-serif',
+            animation: 'ituSlideIn 0.3s ease-out'
+        });
+        
+        // Add animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ituSlideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes ituSlideOut {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        document.body.appendChild(alert);
+        
+        // Close button functionality
+        const closeBtn = alert.querySelector('#itu-pdf-alert-close');
+        closeBtn.addEventListener('click', () => {
+            alert.style.animation = 'ituSlideOut 0.3s ease-in forwards';
+            setTimeout(() => alert.remove(), 300);
+        });
+        
+        // Auto-hide after 8 seconds
+        setTimeout(() => {
+            if (alert.parentNode) {
+                alert.style.animation = 'ituSlideOut 0.3s ease-in forwards';
+                setTimeout(() => alert.remove(), 300);
+            }
+        }, 8000);
+    }
+
     // Load required stylesheets for navbar
     const linkElement = document.createElement('link');
     linkElement.rel = 'stylesheet';
