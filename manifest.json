@@ -47,7 +47,7 @@
             "css": ["src/styles/compatibility/notkutusu-styles.css"]
         },
         {
-            "matches": ["https://www.mathavuz.itu.edu.tr/*"],
+            "matches": ["*://*.mathavuz.itu.edu.tr/*"],
             "css": ["src/styles/compatibility/mathavuz-styles.css"]
         },
         {
