@@ -2,6 +2,19 @@ document.addEventListener('DOMContentLoaded', function () {
   const navbarToggle = document.getElementById('navbar-toggle');
   const saveMessage = document.querySelector('.save-message');
   const togglesContainer = document.getElementById('togglesContainer');
+  const pdfNotification = document.getElementById('pdf-notification');
+
+  // Check if current tab is showing a PDF (navbar hidden)
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    if (tabs[0]) {
+      const tabId = tabs[0].id;
+      chrome.storage.session.get(`pdfTab_${tabId}`, function(data) {
+        if (data[`pdfTab_${tabId}`]) {
+          pdfNotification.classList.add('visible');
+        }
+      });
+    }
+  });
 
   // Helper to check if a given URL belongs to one of the known ITU sites
   // Falls back to the previous hardcoded domain substrings if `window.ITU_SITES` is not available
