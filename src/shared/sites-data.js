@@ -34,8 +34,8 @@ const ITU_SITES = {
       hidden: true
     },
     {
-      url: "https://smartpay.itu.edu.tr",
-      label: "Smartpay",
+      url: "https://kampuskart.itu.edu.tr/",
+      label: "Kampüs Kart",
       icon: "fa-solid fa-credit-card",
       hidden: true
     },
