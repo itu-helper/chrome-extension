@@ -1,0 +1,7 @@
+/* Compatibility styles for https://itu-helper.github.io/prereq-scheduler/schedule_creator */
+
+@media (min-width: 1400px) {
+    div.course-selection {
+        margin-bottom: 50px;
+    }
+}

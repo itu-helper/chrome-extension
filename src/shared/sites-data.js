@@ -86,6 +86,12 @@ const ITU_SITES = {
       hidden: false
     },
     {
+      url: "https://itu-helper.github.io/prereq-scheduler/schedule_creator",
+      label: "Ders Programı Oluşturucu",
+      icon: "fa-solid fa-calendar-check",
+      hidden: false
+    },
+    {
       url: "http://www.notkutusu.com",
       label: "Not Kutusu",
       icon: "fa-solid fa-notes-medical",
