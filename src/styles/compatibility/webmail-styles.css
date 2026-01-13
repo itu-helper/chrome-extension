@@ -19,3 +19,21 @@ body.hordeauth {
     position: relative !important;
     z-index: 999997 !important; /* Below both navbars but above page content */
 }
+
+#horde-sub {
+    margin-top: 35px !important;
+}
+
+#horde-body {
+    margin-top: 45px !important;
+}
+
+@media (max-width: 768px) {
+    #horde-sub {
+        height: 50px !important;
+    }
+
+    #horde-body {
+        margin-top: 62px !important;
+    }
+}
